@@ -1,0 +1,43 @@
+# Utiliser une image de base Python légère
+FROM python:3.11-slim
+
+# Éviter les tampons Python pour améliorer la sortie des logs
+ENV PYTHONUNBUFFERED=1 \
+    # Désactiver la génération des fichiers __pycache__
+    PYTHONDONTWRITEBYTECODE=1 \
+    # Configuration de pip
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on
+
+WORKDIR /app
+
+# Installation des dépendances système courantes sans interaction
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Installation des outils de développement Python
+COPY requirements.txt* .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install pytest pytest-cov black flake8 isort mypy
+
+# Installation des outils pour le développement FastAPI
+RUN pip install fastapi[all] uvicorn
+
+# Création d'un utilisateur non-root
+ARG USERNAME=developer
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && chown -R $USERNAME:$USERNAME /app
+
+USER $USERNAME
+
+# Commande par défaut
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
