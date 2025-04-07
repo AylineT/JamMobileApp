@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Alert } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import LogoTitle from "../components/LogoTitle";
@@ -8,31 +8,36 @@ import CustomButton from "../components/CustomButton";
 import ThirdPartyButton from "../components/ThirdPartyButton";
 import LinkText from "../components/LinkText";
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      setError("Veuillez remplir tous les champs.");
+  const handleRegister = () => {
+    const emailRegex = /\S+@\S+\.\S+/;
+
+    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+      setError("Tous les champs sont obligatoires.");
       return;
     }
 
-    // Tu peux aussi ajouter une vérification de format d'email :
-    const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
       setError("Adresse mail invalide.");
       return;
     }
 
-    // Nettoyage basique
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
     const cleanEmail = email.trim();
     const cleanPassword = password.trim();
 
-    // TODO: Envoyer vers backend
-    setError(""); // reset
-    console.log("Login avec:", cleanEmail, cleanPassword);
+    // TODO: Envoyer vers le backend
+    console.log("Inscription avec:", cleanEmail, cleanPassword);
+    setError(""); // reset erreur
   };
 
   return (
@@ -52,24 +57,30 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         secureTextEntry
       />
+      <CustomInput
+        placeholder="Confirmer mot de passe"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
 
-      <CustomButton text="Continuer" onPress={handleLogin} />
+      <CustomButton text="Créer mon compte" onPress={handleRegister} />
 
       <ThirdPartyButton
         icon={<AntDesign name="google" size={20} color="#000" />}
-        text="Se connecter avec Compte Google"
-        onPress={() => console.log("Google login")}
+        text="S’inscrire avec Google"
+        onPress={() => console.log("Google register")}
       />
       <ThirdPartyButton
         icon={<Ionicons name="logo-apple" size={20} color="#000" />}
-        text="Se connecter avec Compte Apple"
-        onPress={() => console.log("Apple login")}
+        text="S’inscrire avec Apple"
+        onPress={() => console.log("Apple register")}
       />
 
       <LinkText
-        label="Pas de compte ?"
-        linkText="Inscrivez-vous"
-        linkHref="/register"
+        label="Déjà inscrit ?"
+        linkText="Se connecter"
+        linkHref="/login"
       />
     </View>
   );
