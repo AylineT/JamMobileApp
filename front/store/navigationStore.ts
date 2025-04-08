@@ -1,12 +1,23 @@
 import { create } from 'zustand';
-
+interface Jam {
+  id: number | string;
+  title: string;
+  image: string;
+  date: Date;
+  location: string;
+  description: string;
+  creator: string;
+}
 interface NavBarProps {
-  onTabChange?: (index: number) => void;
-  activeTab: number;
-  setActiveTab: (index: number) => void;
+  activeTab: string;
+  jam: Jam | null;
+  setActiveTab: (value: string) => void;
+  setJam: (value: Jam) => void;
 }
 
 export const useNavigationStore = create<NavBarProps>((set) => ({
-  activeTab: 0,
-  setActiveTab: (index) => set({ activeTab: index }),
+  activeTab: "jams",
+  jam: null,
+  setActiveTab: (value) => set({ activeTab: value }),
+  setJam: (value) => set({ jam: value })
 }));
