@@ -1,19 +1,23 @@
-import { Text, View } from "react-native";
-import { TamaguiProvider } from 'tamagui';
-import { config } from "@/tamagui.config";
+import { YStack } from 'tamagui';
+import { NavBar } from "@/components/organisms/navbar"
+import { useNavigationStore } from '@/store/navigationStore';
+import { HomeTab } from "@/screens/HomeTab";
+import { MessagesTab } from '@/screens/MessagesTab';
+import { JamsTab } from '@/screens/JamsTab';
+import { ProfileTab } from '@/screens/ProfileTab';
 
 export default function Index() {
+  const { activeTab } = useNavigationStore();
+
   return (
-    <TamaguiProvider config={config} defaultTheme="light">
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>Edit app/index.tsx to edit this screen.</Text>
-      </View>
-    </TamaguiProvider>
+    <YStack flex={1}>
+      <YStack flex={1}>
+        {activeTab === 0 && <HomeTab />}
+        {activeTab === 1 && <MessagesTab />}
+        {activeTab === 2 && <JamsTab />}
+        {activeTab === 3 && <ProfileTab />}
+      </YStack>
+      <NavBar />
+    </YStack>
   );
 }
