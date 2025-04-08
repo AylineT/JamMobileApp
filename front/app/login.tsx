@@ -1,45 +1,44 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, Alert } from "react-native";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import React, { useState } from 'react'
+import { View } from 'react-native'
+import { YStack, Text } from 'tamagui'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 
-import LogoTitle from "../components/LogoTitle";
-import CustomInput from "../components/CustomInput";
-import CustomButton from "../components/CustomButton";
-import ThirdPartyButton from "../components/ThirdPartyButton";
-import LinkText from "../components/LinkText";
+import LogoTitle from '../components/molecules/LogoTitle'
+import CustomInput from '../components/atoms/CustomInput'
+import CustomButton from '../components/atoms/CustomButton'
+import ThirdPartyButton from '../components/molecules/ThirdPartyButton'
+import LinkText from '../components/atoms/LinkText'
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleLogin = () => {
     if (!email.trim() || !password.trim()) {
-      setError("Veuillez remplir tous les champs.");
-      return;
+      setError('Veuillez remplir tous les champs.')
+      return
     }
 
-    // Tu peux aussi ajouter une vérification de format d'email :
-    const emailRegex = /\S+@\S+\.\S+/;
+    const emailRegex = /\S+@\S+\.\S+/
     if (!emailRegex.test(email)) {
-      setError("Adresse mail invalide.");
-      return;
+      setError('Adresse mail invalide.')
+      return
     }
 
-    // Nettoyage basique
-    const cleanEmail = email.trim();
-    const cleanPassword = password.trim();
-
-    // TODO: Envoyer vers backend
-    setError(""); // reset
-    console.log("Login avec:", cleanEmail, cleanPassword);
-  };
+    setError('')
+    console.log('Connexion :', email, password)
+  }
 
   return (
-    <View style={styles.container}>
-      <LogoTitle size={26} />
+    <YStack flex={1} justifyContent="center" alignItems="center" background="black" padding="3%">
+      <LogoTitle size={28} />
 
-      {error.length > 0 && <Text style={styles.errorText}>{error}</Text>}
+      {error.length > 0 && (
+        <Text color="red" marginBottom="5%">
+          {error}
+        </Text>
+      )}
 
       <CustomInput
         placeholder="Adresse mail"
@@ -56,14 +55,15 @@ export default function LoginScreen() {
       <CustomButton text="Continuer" onPress={handleLogin} />
 
       <ThirdPartyButton
-        icon={<AntDesign name="google" size={20} color="#000" />}
+        icon={<AntDesign name="google" size={20} color="black" />}
         text="Se connecter avec Compte Google"
-        onPress={() => console.log("Google login")}
+        onPress={() => console.log('Connexion Google')}
       />
+
       <ThirdPartyButton
-        icon={<Ionicons name="logo-apple" size={20} color="#000" />}
+        icon={<Ionicons name="logo-apple" size={20} color="black" />}
         text="Se connecter avec Compte Apple"
-        onPress={() => console.log("Apple login")}
+        onPress={() => console.log('Connexion Apple')}
       />
 
       <LinkText
@@ -71,20 +71,6 @@ export default function LoginScreen() {
         linkText="Inscrivez-vous"
         linkHref="/register"
       />
-    </View>
-  );
+    </YStack>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#111",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 15,
-  },
-});
