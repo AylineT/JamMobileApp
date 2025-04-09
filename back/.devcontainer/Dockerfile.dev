@@ -24,8 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt* .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
-    pip install pytest pytest-cov black flake8 isort mypy pytz
-
+    pip install --upgrade pytest pytest-cov black flake8 isort mypy pytz httpx
 # Installation des outils pour le développement FastAPI
 RUN pip install fastapi[all] uvicorn
 
