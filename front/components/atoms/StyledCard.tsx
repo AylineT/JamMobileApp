@@ -20,7 +20,7 @@ interface StyledCardProps {
 export const StyledCard = ({ title, onPress, children }: StyledCardProps) => {
   return (
     <Card
-      elevate
+      elevation={2} // ← valeur fixe et sûre
       width={220}
       padding={"$3" as any}
       backgroundColor="white"
