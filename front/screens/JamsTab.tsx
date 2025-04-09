@@ -12,6 +12,8 @@ const jams = [
     creator: "Elyes",
     description: "An open-stage night for jazz lovers. Bring your sax, piano skills, or just vibes.",
     date: "2025-04-15T22:00:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ const jams = [
     creator: "Ayline",
     description: "A funky gathering with tight grooves and dirty basslines. Everyone's welcome to jump in!",
     date: "2025-04-18T20:00:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 3,
@@ -28,6 +32,8 @@ const jams = [
     creator: "Kaoutar",
     description: "Unplugged acoustic jam with a focus on mellow vibes and coffeehouse-style ambiance.",
     date: "2025-04-13T16:00:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 4,
@@ -36,6 +42,8 @@ const jams = [
     creator: "Ines",
     description: "Bring your synths, drum machines, or just your curiosity. Improvised live electronica 'til dawn.",
     date: "2025-04-20T23:30:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 5,
@@ -44,6 +52,8 @@ const jams = [
     creator: "Robin",
     description: "Poetry, spoken word, and acoustic jams collide in this cozy, creative meetup.",
     date: "2025-04-12T19:00:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 6,
@@ -52,6 +62,8 @@ const jams = [
     creator: "Ines",
     description: "Bring your synths, drum machines, or just your curiosity. Improvised live electronica 'til dawn.",
     date: "2025-04-01T23:30:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   },
   {
     id: 7,
@@ -60,6 +72,8 @@ const jams = [
     creator: "Robin",
     description: "Poetry, spoken word, and acoustic jams collide in this cozy, creative meetup.",
     date: "2025-04-02T19:00:00Z",
+    image: "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+
   }
 ];
 

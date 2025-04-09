@@ -40,16 +40,16 @@ export const config = createTamagui({
     space: { '-sm': 8 },
     // radius="$none"
     radius: { none: 0, sm: 3 },
-    color: { white: '#fff', black: '#000', primary: '#0086FF' },
+    color: { white: '#fff', black: '#1F1F1F', primary: '#0086FF' },
   },
 
   themes: {
     light: {
       bg: '#FFF',
-      color: '#000',
+      color: '#1F1F1F',
     },
     dark: {
-      bg: '#000',
+      bg: '#1F1F1F',
       color: '#fff',
     },
   },
