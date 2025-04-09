@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS Messages (
     id SERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     sender_id INT,
+    receiver_id INT,
     event_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES Users(id),
