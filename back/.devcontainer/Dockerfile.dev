@@ -1,5 +1,5 @@
 # Utiliser une image de base Python légère
-FROM python:3.11-slim
+FROM python:3.9-slim
 
 # Éviter les tampons Python pour améliorer la sortie des logs
 ENV PYTHONUNBUFFERED=1 \
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
+    postgresql-client \ 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -23,7 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt* .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
-    pip install pytest pytest-cov black flake8 isort mypy
+    pip install pytest pytest-cov black flake8 isort mypy pytz
 
 # Installation des outils pour le développement FastAPI
 RUN pip install fastapi[all] uvicorn
@@ -40,4 +41,4 @@ RUN groupadd --gid $USER_GID $USERNAME \
 USER $USERNAME
 
 # Commande par défaut
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
