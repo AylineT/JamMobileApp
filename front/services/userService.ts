@@ -18,8 +18,13 @@ export interface UserUpdateData {
 }
 
 const userService = {
-  getUser: async (): Promise<User> => {
+  getMe: async (): Promise<User> => {
     const response = await API.get('/auth/me');
+    return response.data;
+  },
+
+  getUser: async (id: number): Promise<User> => {
+    const response = await API.get(`/users/${id}`);
     return response.data;
   },
 
@@ -28,13 +33,14 @@ const userService = {
   //   return response.data;
   // },
 
-  registerUser: async (userData: {
-    username: string;
-    email: string;
-    password: string;
-  }): Promise<User> => {
-    const response = await API.post('/auth/register', userData);
-    return response.data;
+  register: async (body: { email: string; password: string, username: string }): Promise<{ refresh_token: string }> => {
+    const response = await API.post('/auth/register', body);
+    if (response.data.refresh_token) {
+      await authService.setToken(response.data.refresh_token);
+    }
+    return {
+      refresh_token: response.data.refresh_token
+    };
   },
 
   login: async (body: { email: string; password: string }): Promise<{ access_token: string }> => {
