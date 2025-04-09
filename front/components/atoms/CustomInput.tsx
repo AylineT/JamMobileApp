@@ -14,15 +14,13 @@ export default function CustomInput({ placeholder, value, onChangeText, secureTe
       value={value}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
-      style={{
-        width: "100%",
-        padding: 15,
-        borderRadius: 8,
-        alignItems: "center",
-        backgroundColor: "#222",
-        marginBottom: 15,
-        color: "#fff",
-      }}
+      backgroundColor="$bginput"
+      color="$white"
+      width="100%"
+      alignItems='center'
+      borderRadius="$sm"
+      padding="$md"
+      marginBottom="$md"
     />
   )
 }

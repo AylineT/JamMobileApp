@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useRouter } from 'expo-router'
 import { YStack, Text, XStack } from 'tamagui'
 
-import ProfilePictureUploader from '../components/molecules/ProfilePictureUploader'
-import CustomInput from '../components/atoms/CustomInput'
-import CustomButton from '../components/atoms/CustomButton'
+import ProfilePictureUploader from '@/components/molecules/ProfilePictureUploader'
+import CustomInput from '@/components/atoms/CustomInput'
+import CustomButton from '@/components/atoms/CustomButton'
 
 export default function ProfileScreen() {
   const [name, setName] = useState('')

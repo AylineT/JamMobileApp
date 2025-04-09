@@ -11,17 +11,20 @@ export default function ThirdPartyButton({ icon, text, onPress }: Props) {
   return (
     <Button
       onPress={onPress}
-      style={{
-        backgroundColor: "#fff",
-        width: "100%",
-        padding: 8,
-        borderRadius: 8,
-        marginBottom: 20,
-      }}
+      
+      backgroundColor="$white"
+      width={"100%"}
+      padding="$sm"
+      borderRadius="$sm"
+      marginBottom="$lg"
     >
       <XStack alignItems="center" justifyContent="center" >
         {icon}
-        <Text style={{ color: "#000", marginLeft: 10, fontWeight: "700" }}>
+        <Text 
+        color="$black" 
+        marginLeft="$md"
+        fontSize="$md"
+        fontWeight="bold">
           {text}
         </Text>
       </XStack>

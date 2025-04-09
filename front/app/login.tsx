@@ -3,11 +3,11 @@ import { View } from 'react-native'
 import { YStack, Text } from 'tamagui'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 
-import LogoTitle from '../components/molecules/LogoTitle'
-import CustomInput from '../components/atoms/CustomInput'
-import CustomButton from '../components/atoms/CustomButton'
-import ThirdPartyButton from '../components/molecules/ThirdPartyButton'
-import LinkText from '../components/atoms/LinkText'
+import LogoTitle from '@/components/molecules/LogoTitle'
+import CustomInput from '@/components/atoms/CustomInput'
+import CustomButton from '@/components/atoms/CustomButton'
+import ThirdPartyButton from '@/components/molecules/ThirdPartyButton'
+import LinkText from '@/components/atoms/LinkText'
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('')
@@ -31,7 +31,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <YStack flex={1} justifyContent="center" alignItems="center" background="black" padding="3%">
+    <YStack flex={1} justifyContent="center" alignItems="center" background="black" padding="$lm">
       <LogoTitle size={28} />
 
       {error.length > 0 && (
@@ -55,7 +55,7 @@ export default function LoginScreen() {
       <CustomButton text="Continuer" onPress={handleLogin} />
 
       <ThirdPartyButton
-        icon={<AntDesign name="google" size={20} color="black" />}
+        icon={<AntDesign name="google" size={20} color="$black" />}
         text="Se connecter avec Compte Google"
         onPress={() => console.log('Connexion Google')}
       />

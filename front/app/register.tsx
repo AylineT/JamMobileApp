@@ -105,11 +105,11 @@ import React, { useState } from 'react'
 import { YStack, Text } from 'tamagui'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 
-import LogoTitle from '../components/molecules/LogoTitle'
-import CustomInput from '../components/atoms/CustomInput'
-import CustomButton from '../components/atoms/CustomButton'
-import ThirdPartyButton from '../components/molecules/ThirdPartyButton'
-import LinkText from '../components/atoms/LinkText'
+import LogoTitle from '@/components/molecules/LogoTitle'
+import CustomInput from '@/components/atoms/CustomInput'
+import CustomButton from '@/components/atoms/CustomButton'
+import ThirdPartyButton from '@/components/molecules/ThirdPartyButton'
+import LinkText from '@/components/atoms/LinkText'
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('')
