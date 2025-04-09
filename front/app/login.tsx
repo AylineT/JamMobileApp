@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
 import { YStack, Text } from 'tamagui'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { useNavigation } from 'expo-router';
+
+import userService from '@/services/userService';
 
 import LogoTitle from '@/components/molecules/LogoTitle'
 import CustomInput from '@/components/atoms/CustomInput'
@@ -13,22 +15,27 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
-  const handleLogin = () => {
-    if (!email.trim() || !password.trim()) {
-      setError('Veuillez remplir tous les champs.')
-      return
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
     }
 
-    const emailRegex = /\S+@\S+\.\S+/
-    if (!emailRegex.test(email)) {
-      setError('Adresse mail invalide.')
-      return
+    try {
+      setLoading(true);
+      setError('');
+      await userService.login({ email, password });
+      navigation.navigate('home')
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password');
+    } finally {
+      setLoading(false);
     }
-
-    setError('')
-    console.log('Connexion :', email, password)
-  }
+  };
 
   return (
     <YStack flex={1} justifyContent="center" alignItems="center" background="black" padding="$lm">
