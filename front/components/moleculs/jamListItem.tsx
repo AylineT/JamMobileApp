@@ -1,7 +1,9 @@
-import { Text, YStack, Image, Button } from "tamagui"
+import { Text, YStack, Image, Button, XStack } from "tamagui"
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { useNavigationStore } from '@/store/navigationStore';
+import { ChevronRight, Heart } from "@tamagui/lucide-icons";
+import { useState } from "react";
 
 interface Jam {
   id: number;
@@ -18,18 +20,23 @@ interface JamListItemProps {
 }
 
 export const JamListItem = ({ jam }: JamListItemProps) => {
-  const { title, date, location } = jam;
+  const { title, date, location, image } = jam;
   const { setActiveTab, setJam } = useNavigationStore();
-  const image = "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M="
+  const fave = false;
+  const [fav, setFav] = useState(fave)
 
-  const onPress = () => {
+  const onPressFav = () => {
+    setFav((current) => !current)
+    //envoi à la db
+  }
+
+  const onPressDetails = () => {
     setActiveTab("jamDetails");
     setJam(jam);
-    console.log("press");
   }
 
   return (
-    <Button position="relative" width="100%" height={200} overflow="hidden" borderRadius={24} onPress={onPress}>
+    <YStack position="relative" width="100%" height={200} overflow="hidden" borderRadius={20}>
       <Image
         position="absolute"
         top={0}
@@ -44,16 +51,29 @@ export const JamListItem = ({ jam }: JamListItemProps) => {
       />
       <YStack
         position="absolute"
+        flex={1}
+        justifyContent="space-between"
         bottom={0}
         width="100%"
         height="100%"
         padding={16}
         backgroundColor="rgba(0,0,0,0.5)"
       >
-        <Text color="white" textAlign="left" fontWeight="bold" fontSize={18} paddingBottom={8}>{title}</Text>
-        <Text color="white" textAlign="left" fontSize={14}>{format(date, 'd MMMM yyyy, hh:mm',  { locale: fr })}</Text>
-        <Text color="white" textAlign="left" fontSize={14}>{location}</Text>
+        <YStack>
+          <Text color="white" textAlign="left" fontWeight="bold" fontSize={18} paddingBottom={8}>{title}</Text>
+          <Text color="white" textAlign="left" fontSize={14}>{format(date, 'd MMMM yyyy, hh:mm',  { locale: fr })}</Text>
+          <Text color="white" textAlign="left" fontSize={14}>{location}</Text>
+        </YStack>
+        <XStack justifyContent="space-between">
+          <Button onPress={onPressFav} backgroundColor="transparent">
+            <Heart size={24} fill={fav ? "white" : "transparent"}/>
+          </Button>
+          <Button onPress={onPressDetails} backgroundColor="transparent">
+            Plus d'infos
+            <ChevronRight size={24} />
+          </Button>
+        </XStack>
       </YStack>
-    </Button>
+    </YStack>
   );
 };
