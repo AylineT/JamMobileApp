@@ -98,7 +98,6 @@ export const JamsTab = () => {
     setList(jams.filter(({date}) => method(date, startOfDay(new Date()))))
   } 
 
-
   return (
     <YStack flex={1} backgroundColor="$black" padding={16} gap={16}>
       <Tabs

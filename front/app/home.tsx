@@ -6,6 +6,7 @@ import { MessagesTab } from '@/screens/MessagesTab';
 import { JamsTab } from '@/screens/JamsTab';
 import { ProfileTab } from '@/screens/ProfileTab';
 import { JamDetails } from '@/screens/JamDetails';
+import { CreateJam } from "@/screens/CreateJam";
 
 export default function HomeScreen() {
   const { activeTab } = useNavigationStore();
@@ -17,6 +18,7 @@ export default function HomeScreen() {
       {activeTab === "jams" && <JamsTab />}
       {activeTab === "profile" && <ProfileTab />}
       {activeTab === "jamDetails" && <JamDetails /> }
+      {activeTab === "createJame" && <CreateJam/> }
       <NavBar />
     </YStack>
   )

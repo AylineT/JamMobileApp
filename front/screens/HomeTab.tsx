@@ -1,6 +1,6 @@
 import React from 'react'
 import { YStack, Text } from 'tamagui'
-import MapView, { Marker, Callout } from 'react-native-maps'
+// import MapView, { Marker, Callout } from 'react-native-maps'
 import { StyledCard } from '../components/atoms/StyledCard'
 
 export const HomeTab = () => {
@@ -27,7 +27,7 @@ export const HomeTab = () => {
 
   return (
     <YStack flex={1}>
-      <MapView
+      {/* <MapView
         style={{ flex: 1 }}
         initialRegion={{
           latitude: 48.8719,
@@ -53,7 +53,7 @@ export const HomeTab = () => {
             </Callout>
           </Marker>
         ))}
-      </MapView>
+      </MapView> */}
     </YStack>
   )
 }

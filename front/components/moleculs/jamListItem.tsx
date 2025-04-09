@@ -5,7 +5,7 @@ import { useNavigationStore } from '@/store/navigationStore';
 import { ChevronRight, Heart } from "@tamagui/lucide-icons";
 import { useState } from "react";
 
-interface Jam {
+export interface Jam {
   id: number;
   title: string;
   image: string;
