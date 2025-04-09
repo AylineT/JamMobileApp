@@ -8,6 +8,8 @@ from app.main import app
 from app.core.database import Base, get_db
 from app.models.user import User
 from app.core.security import get_password_hash
+import sqlite3
+import datetime
 
 
 # Base de données en mémoire pour les tests
