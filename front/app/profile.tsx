@@ -47,7 +47,7 @@ export default function ProfileScreen() {
       <CustomInput placeholder="Instruments joués" value={instruments} onChangeText={setInstruments} />
       <CustomInput placeholder="Influences musicales" value={influences} onChangeText={setInfluences} />
 
-      <XStack  space="2%" width="100%"  justifyContent="space-between" marginTop="5%">
+      <XStack space="2%" width="100%"  justifyContent="space-between" marginTop="5%">
         <YStack flex={1}>
             <CustomButton
             text="Annuler"

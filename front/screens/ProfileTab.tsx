@@ -1,5 +1,9 @@
-import { SizableText } from "tamagui";
+import { SizableText, YStack } from "tamagui";
 
 export const ProfileTab = () => {
-  return <SizableText>Profile Content</SizableText>
+  return (
+    <YStack flex={1} padding={16} gap={12} backgroundColor="$black">
+      <SizableText>ajouter le form profil</SizableText>
+    </YStack>
+  )
 };
