@@ -3,6 +3,10 @@ import pytest
 from fastapi import status
 
 
+def test_client_fixture(client):
+    assert client is not None
+
+
 def test_register_user(client):
     """
     Test d'enregistrement d'un nouvel utilisateur

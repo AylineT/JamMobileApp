@@ -39,11 +39,13 @@ def db_session():
         Base.metadata.drop_all(bind=engine)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def client(db_session):
     """
     Créer un client de test avec une base de données isolée
     """
+    print("Création du client de test")
+
     def override_get_db():
         try:
             yield db_session
