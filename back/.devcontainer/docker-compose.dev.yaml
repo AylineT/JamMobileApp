@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile.prod
+      dockerfile: .devcontainer/Dockerfile.dev
     volumes:
       - ..:/app:cached
     ports:
