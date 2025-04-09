@@ -8,7 +8,7 @@ export default function HomeScreen() {
     <YStack flex={1} justifyContent="center" alignItems="center" backgroundColor="$black" padding="$md">
       <LogoTitle size={30} />
 
-      <CustomLinkButton text="Se connecter" href="/login" />
+      <CustomLinkButton text="Se connecter" href="/home" />
       <CustomLinkButton text="S’inscrire" href="/register" variant="secondary" />
     </YStack>
   )

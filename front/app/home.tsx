@@ -3,8 +3,8 @@ import { NavBar } from "@/components/organisms/navbar"
 import { useNavigationStore } from '@/store/navigationStore';
 import { HomeTab } from "@/screens/HomeTab";
 import { MessagesTab } from '@/screens/MessagesTab';
-import { JamsTab } from '@/screens/JamsTab';
-import { ProfileTab } from '@/screens/ProfileTab';
+import  JamsTab  from '@/screens/JamsTab';
+import ProfileTab from '@/screens/ProfileTab';
 
 export default function Index() {
   const { activeTab } = useNavigationStore();
