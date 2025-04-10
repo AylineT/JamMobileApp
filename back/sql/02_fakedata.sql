@@ -9,9 +9,9 @@ INSERT INTO Events (title, description, location, event_date, created_by) VALUES
 ('Rock Fest', 'Rock music festival', 'City Park', '2023-11-20 18:00:00', 2);
 
 -- Insert fake data into Messages table
-INSERT INTO Messages (content, sender_id, event_id) VALUES
-('Looking forward to the Jazz Night!', 1, 1),
-('Who s coming to Rock Fest?', 2, 2);
+INSERT INTO Messages (content, sender_id, receiver_id, event_id) VALUES
+('Looking forward to the Jazz Night!', 1, 2, 1),
+('Who s coming to Rock Fest?', 2, 1, 2);
 
 -- Insert fake data into EventParticipants table
 INSERT INTO EventParticipants (event_id, user_id) VALUES
