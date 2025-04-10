@@ -1,24 +1,40 @@
+<<<<<<< HEAD
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
 # Schéma de base pour un événement
+=======
+# schemas/event.py
+
+from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
+
+>>>>>>> 46b5bed (message routes)
 class EventBase(BaseModel):
     title: str
     description: Optional[str] = None
     location: Optional[str] = None
     event_date: datetime
 
+<<<<<<< HEAD
 # Schéma pour la création d'un événement
 class EventCreate(EventBase):
     pass
 
 # Schéma pour la réponse d'un événement complet
+=======
+class EventCreate(EventBase):
+    created_by: int
+
+>>>>>>> 46b5bed (message routes)
 class EventResponse(EventBase):
     id: int
     created_by: int
     created_at: datetime
 
+<<<<<<< HEAD
     model_config = ConfigDict(from_attributes=True)
 
 # Schéma pour la liste des événements
@@ -53,3 +69,7 @@ class EventDetailResponse(EventResponse):
     hosts: List[EventHostResponse] = []
 
     model_config = ConfigDict(from_attributes=True)
+=======
+    class Config:
+        orm_mode = True
+>>>>>>> 46b5bed (message routes)

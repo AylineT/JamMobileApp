@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -232,3 +233,56 @@ def add_event_participant(
     db.refresh(new_participant)
     
     return new_participant
+=======
+# from fastapi import APIRouter, Depends, HTTPException
+# from sqlalchemy.orm import Session
+# from app.models import event as event_model
+# from app.schemas import event as event_schema
+# from app.core.database import get_db
+
+# router = APIRouter(
+#     prefix="/events",
+#     tags=["Events"]
+# )
+
+# @router.post("/", response_model=event_schema.EventResponse)
+# def create_event(event: event_schema.EventCreate, db: Session = Depends(get_db)):
+#     new_event = event_model.Event(**event.dict())
+#     db.add(new_event)
+#     db.commit()
+#     db.refresh(new_event)
+#     return new_event
+
+# @router.get("/", response_model=list[event_schema.EventResponse])
+# def get_events(db: Session = Depends(get_db)):
+#     return db.query(event_model.Event).all()
+
+# @router.get("/{event_id}", response_model=event_schema.EventResponse)
+# def get_event(event_id: int, db: Session = Depends(get_db)):
+#     event = db.query(event_model.Event).filter(event_model.Event.id == event_id).first()
+#     if not event:
+#         raise HTTPException(status_code=404, detail="Event not found")
+#     return event
+
+# @router.put("/{event_id}", response_model=event_schema.EventResponse)
+# def update_event(event_id: int, updated: event_schema.EventCreate, db: Session = Depends(get_db)):
+#     event = db.query(event_model.Event).filter(event_model.Event.id == event_id).first()
+#     if not event:
+#         raise HTTPException(status_code=404, detail="Event not found")
+
+#     for key, value in updated.dict().items():
+#         setattr(event, key, value)
+#     db.commit()
+#     db.refresh(event)
+#     return event
+
+# @router.delete("/{event_id}")
+# def delete_event(event_id: int, db: Session = Depends(get_db)):
+#     event = db.query(event_model.Event).filter(event_model.Event.id == event_id).first()
+#     if not event:
+#         raise HTTPException(status_code=404, detail="Event not found")
+
+#     db.delete(event)
+#     db.commit()
+#     return {"detail": "Event deleted successfully"}
+>>>>>>> 46b5bed (message routes)
