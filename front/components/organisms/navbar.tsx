@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, YStack, SizableText } from 'tamagui';
 import { Home, MessagesSquare, Music, User } from '@tamagui/lucide-icons';
-import { useNavigationStore } from '@/store/navigationStore';
+import { useNavigationStore } from '../../store/navigationStore'
 
 const tabs = [
   {

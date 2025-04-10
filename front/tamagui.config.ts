@@ -1,54 +1,58 @@
-import { createTamagui, getConfig } from '@tamagui/core'
+import { createTamagui } from 'tamagui'
 
-export const config = createTamagui({
-  // act like CSS variables at your root
+const config = createTamagui({
   tokens: {
-    // width="$sm"
-    size: { sm: 8, md: 12, lg: 20 },
-    // margin="$-sm"
-    space: { '-sm': 8 },
-    // radius="$none"
-    radius: { none: 0, sm: 3 },
-    color: { white: '#fff', black: '#000', primary: '#0086FF' },
+    size: {
+      true: 16,
+      sm: 8,
+      md: 12,
+      lg: 20,
+    },
+    space: {
+      true: 16,
+      sm: 8,
+      md: 12,
+      lg: 20,
+    },
+    radius: {
+      sm: 4,
+      md: 8,
+      lg: 16,
+    },
+    color: {
+      white: '#ffffff',
+      black: '#000000',
+      primary: '#0086FF',
+    },
   },
-
   themes: {
     light: {
-      bg: '#FFF',
-      color: '#000',
+      bg: '#ffffff',
+      color: '#000000',
     },
     dark: {
-      bg: '#000',
-      color: '#fff',
+      bg: '#000000',
+      color: '#ffffff',
     },
   },
-
-  // media query definitions can be used to style,
-  // but also can be used with "groups" to do container queries by size:
+  shorthands: {
+    px: 'paddingHorizontal',
+    py: 'paddingVertical',
+  },
   media: {
     sm: { maxWidth: 860 },
-    gtSm: { minWidth: 860 + 1 },
-    short: { maxHeight: 820 },
-    hoverNone: { hover: 'none' },
-    pointerCoarse: { pointer: 'coarse' },
+    gtSm: { minWidth: 861 },
   },
-
-  shorthands: {
-    // <View px={20} />
-    px: 'paddingHorizontal',
-  },
-
   settings: {
-    disableSSR: true, // for client-side apps gains a bit of performance
-    allowedStyleValues: 'somewhat-strict-web', // if targeting only web
+    disableSSR: true,
+    allowedStyleValues: 'strict',
   },
 })
 
-// in other files use this:
-// console.log(`config is`, getConfig())
+export type AppConfig = typeof config
 
-// get typescript types on @tamagui/core imports:
-type AppConfig = typeof config
-declare module '@tamagui/core' {
+declare module 'tamagui' {
   interface TamaguiCustomConfig extends AppConfig {}
 }
+
+export default config

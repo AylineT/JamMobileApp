@@ -1,13 +1,13 @@
-import { YStack } from 'tamagui';
-import { NavBar } from "@/components/organisms/navbar"
-import { useNavigationStore } from '@/store/navigationStore';
-import { HomeTab } from "@/screens/HomeTab";
-import { MessagesTab } from '@/screens/MessagesTab';
-import { JamsTab } from '@/screens/JamsTab';
-import { ProfileTab } from '@/screens/ProfileTab';
+import { YStack } from 'tamagui'
+import { NavBar } from '../components/organisms/navbar'
+import { useNavigationStore } from '../store/navigationStore'
+import { HomeTab } from '../screens/HomeTab'
+import { MessagesTab } from '../screens/MessagesTab'
+import { JamsTab } from '../screens/JamsTab'
+import { ProfileTab } from '../screens/ProfileTab'
 
 export default function Index() {
-  const { activeTab } = useNavigationStore();
+  const { activeTab } = useNavigationStore()
 
   return (
     <YStack flex={1}>
@@ -19,5 +19,5 @@ export default function Index() {
       </YStack>
       <NavBar />
     </YStack>
-  );
+  )
 }
