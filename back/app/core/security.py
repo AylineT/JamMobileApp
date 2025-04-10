@@ -26,10 +26,23 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
-    """Authentifier un utilisateur par email et mot de passe"""
+    """Authentifier un utilisateur par email et mot de passe
+    
+    Args:
+        db: Session SQLAlchemy
+        email: Email de l'utilisateur
+        password: Mot de passe en clair
+    
+    Returns:
+        User: L'utilisateur authentifié ou None
+    """
+    # Recherche l'utilisateur par email
     user = db.query(User).filter(User.email == email).first()
+    
+    # Vérifie si l'utilisateur existe et si le mot de passe correspond
     if not user or not verify_password(password, user.hashed_password):
         return None
+        
     return user
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
