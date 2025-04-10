@@ -8,9 +8,10 @@ type Props = {
   label?: string
   disabled?: boolean
   type?: string
+  onFocus?: () => void
 }
 
-export default function CustomInput({ placeholder, value = "", onChangeText, secureTextEntry = false, label, disabled, type }: Props) {
+export default function CustomInput({ placeholder, value = "", onChangeText, secureTextEntry = false, label, disabled, type, onFocus }: Props) {
   const Field = type === "textarea" ? TextArea : Input
   return (
     <YStack>
@@ -18,6 +19,7 @@ export default function CustomInput({ placeholder, value = "", onChangeText, sec
       <Field
         placeholder={placeholder}
         value={value}
+        onFocus={onFocus}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         backgroundColor="$bginput"

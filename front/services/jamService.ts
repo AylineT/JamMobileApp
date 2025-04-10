@@ -5,18 +5,18 @@ export interface Jam {
   id: number;
   title: string;
   description: string;
-  location: string;
+  location?: string;
   event_date: Date;
   created_by: string;
   is_participating: boolean;
-  // image: string;
+  location_id?: number;
 }
 
 export interface JamCreateData {
   title: string;
   image?: string;
   event_date: string;
-  location: string;
+  location_id?: number;
   description: string;
 }
 

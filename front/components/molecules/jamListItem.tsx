@@ -5,15 +5,22 @@ import { useNavigationStore } from '@/store/navigationStore';
 import { ChevronRight, CircleCheck } from "@tamagui/lucide-icons";
 import { useState } from "react";
 import jamService from "@/services/jamService";
+
+interface JamAddress {
+  longitude: number;
+  latitude: number;
+  label: string;
+}
 export interface Jam {
   id: number;
   title: string;
   image?: string;
   is_participating: boolean;
   event_date: Date;
-  location: string;
+  location_id: number;
   description: string;
   created_by: number;
+  location: JamAddress;
 }
 
 interface JamListItemProps {
@@ -21,7 +28,7 @@ interface JamListItemProps {
 }
 
 export const JamListItem = ({ jam }: JamListItemProps) => {
-  const { id, title, event_date, location, is_participating, created_by,
+  const { id, title, event_date, is_participating, created_by, location,
     image = "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M=" 
   } = jam;
   const { setActiveTab, setJam } = useNavigationStore();
@@ -72,7 +79,7 @@ export const JamListItem = ({ jam }: JamListItemProps) => {
         <YStack>
           <Text color="white" textAlign="left" fontWeight="bold" fontSize={18} paddingBottom={8}>{title}</Text>
           <Text color="white" textAlign="left" fontSize={14}>{format(event_date, 'd MMMM yyyy, hh:mm',  { locale: fr })}</Text>
-          <Text color="white" textAlign="left" fontSize={14}>{location}</Text>
+          <Text color="white" textAlign="left" fontSize={14}>{location.label}</Text>
         </YStack>
         <XStack justifyContent="space-between">
           <Button onPress={onPressParticipate} backgroundColor="transparent">

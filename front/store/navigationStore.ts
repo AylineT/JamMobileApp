@@ -1,10 +1,18 @@
 import { create } from 'zustand';
+
+interface JamAddress {
+  longitude: number;
+  latitude: number;
+  label: string;
+}
+
 interface Jam {
   id: number;
   title: string;
   image?: string;
   event_date: Date;
-  location: string;
+  location?: JamAddress;
+  location_id?: number;
   description: string;
   created_by: number;
   is_participating: boolean;
