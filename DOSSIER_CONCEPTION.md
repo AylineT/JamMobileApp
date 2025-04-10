@@ -1,116 +1,210 @@
-# Dossier de Conception - Frontend
+# Dossier de Conception - Backend
 
-# Dossier de Conception - Backend (equ 3 pages )
+# Documentation du Projet Mobile Musician
 
-## Introduction
+## Choix architecturaux
 
-Ce document présente la conception du backend pour une application de mise en relation de musiciens. Il couvre la modélisation des données, les API utilisées, ainsi que les spécifications fonctionnelles et techniques.
+**Architecture utilisée :** Clean Architecture + MVC modulaire
 
-## Modélisation des Données
+**Justification :**
+- Séparation claire des couches (modèles, routes, schémas, core)
+- Facilité de maintenance et de tests
+- Évolutivité du projet
+- Adapté à une API REST avec FastAPI
+- Isolation des dépendances (la couche "core" contient les configurations)
 
-### Schéma 
+La structure en modules (`auth`, `users`, `events`, etc.) permet une bonne organisation du code et une séparation des responsabilités.
 
-![image](./img/Conception.png)
+## Modèle de données
 
-### Modèles SQLAlchemy
+```mermaid
+erDiagram
+    users ||--o{ events : "created_by"
+    users ||--o{ eventparticipants : "participates"
+    users ||--o{ eventhosts : "hosts"
+    users ||--o{ messages : "sends"
+    users ||--o{ conversations : "user1"
+    users ||--o{ conversations : "user2"
+    
+    events ||--o{ eventparticipants : "has"
+    events ||--o{ eventhosts : "has"
+    events ||--|{ address : "location"
+    
+    conversations ||--o{ messages : "contains"
+    
+    address {
+        int id PK
+        string label
+        string street_name
+        string postcode
+        string city
+        numeric longitude
+        numeric latitude
+        datetime created_at
+    }
+    
+    users {
+        int id PK
+        string username
+        string email
+        string hashed_password
+        string full_name
+        string bio
+        datetime created_at
+    }
+    
+    events {
+        int id PK
+        string title
+        text description
+        int location_id FK
+        datetime event_date
+        int created_by FK
+        datetime created_at
+    }
+    
+    eventparticipants {
+        int event_id PK,FK
+        int user_id PK,FK
+        datetime joined_at
+    }
+    
+    eventhosts {
+        int event_id PK,FK
+        int user_id PK,FK
+        datetime hosted_at
+    }
+    
+    conversations {
+        int id PK
+        int jam_id
+        int user1_id FK
+        int user2_id FK
+        datetime created_at
+    }
+    
+    messages {
+        int id PK
+        int conversation_id FK
+        int sender_id FK
+        text content
+        datetime timestamp
+    }
+```
 
-- **User**: Représente un utilisateur (musicien) avec les attributs suivants :
-  - `id`: Identifiant unique.
-  - `username`: Nom d'utilisateur unique.
-  - `email`: Adresse email unique.
-  - `hashed_password`: Mot de passe haché.
-  - `full_name`: Nom complet (optionnel).
-  - `bio`: Biographie (optionnel).
-  - `created_at`: Date de création.
+## Choix techniques
+Principaux outils :
+* Backend : FastAPI, SQLAlchemy, Pydantic
+* Base de données : PostgreSQL
+* Authentification : JWT (JSON Web Tokens)
+* Tests : Pytest
+* Développement : Docker, VSCode Dev Containers
 
-- **Event**: Représente un événement musical avec les attributs suivants :
-  - `id`: Identifiant unique.
-  - `title`: Titre de l'événement.
-  - `description`: Description de l'événement.
-  - `location`: Lieu de l'événement.
-  - `event_date`: Date et heure de l'événement.
-  - `created_by`: Identifiant de l'utilisateur créateur.
-  - `created_at`: Date de création.
+### Schéma d'interactions :
 
-- **Message**: Représente un message envoyé concernant un événement :
-  - `id`: Identifiant unique.
-  - `content`: Contenu du message.
-  - `sender_id`: Identifiant de l'expéditeur.
-  - `receiver_id`: Identifiant du receveur.
-  - `event_id`: Identifiant de l'événement associé.
-  - `created_at`: Date de création.
+```mermaid
+flowchart TD
+    Frontend -->|HTTP Requests| Backend
+    Backend -->|ORM| Database[(PostgreSQL)]
+    Backend -->|API Calls| ExternalServices
+```
 
-- **EventParticipants**: Table de liaison pour les participants à un événement :
-  - `event_id`: Identifiant de l'événement.
-  - `user_id`: Identifiant de l'utilisateur participant.
-  - `joined_at`: Date de participation.
+## Spécifications fonctionnelles développées
 
-- **EventHosts**: Table de liaison pour les hôtes d'un événement :
-  - `event_id`: Identifiant de l'événement.
-  - `user_id`: Identifiant de l'utilisateur hôte.
-  - `hosted_at`: Date d'hébergement.
+Authentification :
+* Inscription/connexion utilisateur
+* Gestion des tokens JWT (access + refresh)
+* Protection des routes
 
-### Relations
+Gestion des utilisateurs :
+* CRUD utilisateurs
+* Profil utilisateur
+* Gestion des événements :
+* Création/modification/suppression d'événements
+* Participation aux événements
+* Système d'hôtes/participants
 
-- Un utilisateur peut créer plusieurs événements.
-- Un événement peut avoir plusieurs messages.
-- Un événement peut avoir plusieurs participants et hôtes.
+Gestion des conversations :
+* Création de conversations entre utilisateurs
+* Envoi de messages
 
-> Il y a une route, une fois l'api lancé, `http://localhost:8000/docs` qui est une documentation Swagger avec l'intégralité des routes.
+Gestion des adresses :
+* CRUD des adresses
+* Coordonnées
 
-## Description outils utilisés
+## Extrait de code commenté
+```python
+# /back/app/core/security.py - Fonction d'authentification
 
-### FastAPI
+def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
+    """Authentifier un utilisateur par email et mot de passe
+    
+    Args:
+        db: Session SQLAlchemy
+        email: Email de l'utilisateur
+        password: Mot de passe en clair
+    
+    Returns:
+        User: L'utilisateur authentifié ou None
+    """
+    # Recherche l'utilisateur par email
+    user = db.query(User).filter(User.email == email).first()
+    
+    # Vérifie si l'utilisateur existe et si le mot de passe correspond
+    if not user or not verify_password(password, user.hashed_password):
+        return None
+        
+    return user
+```
 
-- **Framework**: FastAPI est utilisé pour construire l'API en raison de sa rapidité et de sa facilité d'utilisation.
-- **Endpoints**: Les endpoints sont définis pour l'authentification, la gestion des utilisateurs et des événements.
-- **Authentification**: Utilisation de JWT pour sécuriser les endpoints.
+## Test développé
+```python
+# /back/tests/test_integration.py - Test du flux complet
 
-### SQLAlchemy
+def test_user_registration_and_login_flow(client):
+    # 1. Enregistrement
+    user_data = {
+        "username": "testuser",
+        "email": "test@example.com",
+        "password": "testpass",
+        "full_name": "Test User"
+    }
+    register_response = client.post("/auth/register", json=user_data)
+    assert register_response.status_code == 201
+    
+    # 2. Connexion
+    login_response = client.post("/auth/login", json={
+        "email": user_data["email"],
+        "password": user_data["password"]
+    })
+    assert login_response.status_code == 200
+    tokens = login_response.json()
+    
+    # 3. Accès protégé
+    headers = {"Authorization": f"Bearer {tokens['access_token']}"}
+    me_response = client.get("/auth/me", headers=headers)
+    assert me_response.status_code == 200
+    assert me_response.json()["email"] == user_data["email"]
+```
+## Déploiement (a faire)
+Procédure de déploiement :
+* Hébergement : Docker sur un VPS ou service cloud (AWS, GCP, Azure)
 
-- **ORM**: SQLAlchemy est utilisé pour l'interaction avec la base de données PostgreSQL.
-- **Sessions**: Gestion des sessions de base de données pour les opérations CRUD.
+Configuration :
+* Créer un fichier .env avec les variables nécessaires
+* Configurer la base de données PostgreSQL
 
-### Autres Bibliothèques
+Commandes (après avoir créer une image de prod plus légère et sécurisé ) :
+```bash
+docker-compose up -d --build
+```
+Base de données :
+* Initialiser avec le script `fakedata.sql` ou rien
+* Migrations via Alembic (à implémenter)
 
-- **Pydantic**: Pour la validation des données.
-- **Passlib**: Pour le hachage des mots de passe.
-- **PyJWT**: Pour la gestion des tokens JWT.
+###  Configuration minimale :
 
-## Spécifications Fonctionnelles
+* 1 CPU, 2GB RAM
+* 10GB de stockage
+* PostgreSQL 15+
 
-### Authentification
-
-- Enregistrement des utilisateurs avec email et mot de passe.
-- Connexion des utilisateurs et génération de tokens JWT.
-- Rafraîchissement des tokens d'accès.
-- Déconnexion (côté client).
-
-### Gestion des Utilisateurs
-
-- Création, lecture et mise à jour des informations utilisateur.
-- Récupération des informations de l'utilisateur connecté.
-
-### Gestion des Événements
-
-- Création, lecture et participation aux événements.
-- Envoi de messages concernant les événements.
-
-## Spécifications Techniques
-
-### Environnement de Développement
-
-- **Docker**: Utilisation de Docker pour containeriser l'application.
-- **Devcontainer**: Configuration pour Visual Studio Code pour un environnement de développement isolé.
-- **Base de Données**: PostgreSQL pour la persistance des données.
-
-### Sécurité
-
-- **Hachage des Mots de Passe**: Utilisation de bcrypt pour hacher les mots de passe.
-- **JWT**: Tokens pour l'authentification et l'autorisation.
-- **CORS**: Configuration pour permettre les requêtes depuis des origines spécifiques.
-
-### Tests
-
-- **Pytest**: Utilisation de Pytest pour les tests.
-- **Couverture de Code**: Utilisation de pytest-cov pour mesurer la couverture de code.
