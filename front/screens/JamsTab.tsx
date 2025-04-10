@@ -1,7 +1,6 @@
 import { JamsList } from "@/components/organisms/jamsList";
 import { useEventsStore } from "@/store/eventsStore";
 import { YStack, Tabs, SizableText } from "tamagui";
-import { isBefore, isAfter, startOfDay } from 'date-fns';
 import { useState } from "react";
 
 const jams = [
@@ -79,29 +78,29 @@ const jams = [
 
 const tabs = [
   {
-    value: "coming",
-    title: "À venir"
+    value: "mine",
+    title: "J'y participe"
   },
   {
-    value: "past",
-    title: "Passées"
+    value: "all",
+    title: "Toutes les jams"
   }
 ]
 
 export const JamsTab = () => {
   const { activeTab, setActiveTab } = useEventsStore();
-  const [list, setList] = useState(jams.filter(({date}) => isAfter(date, startOfDay(new Date()))));
+  const [list, setList] = useState(jams.filter(({title}) => !!title === true));
 
   const setTab = (value: string) => {
     setActiveTab(value)
-    const method = value === "coming" ? isAfter : isBefore;
-    setList(jams.filter(({date}) => method(date, startOfDay(new Date()))))
+    const favs = value === tabs[0].value ? true : false;
+    setList(jams.filter(({title}) => !!title === favs)) // à remplacer par la prop fav
   } 
 
   return (
     <YStack flex={1} backgroundColor="$black" padding={16} gap={16}>
       <Tabs
-        defaultValue="coming"
+        defaultValue={tabs[0].value}
         orientation="horizontal"
         flexDirection="column"
       >
