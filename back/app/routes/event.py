@@ -276,6 +276,7 @@ def get_all_events_with_participation(
         # Convertir l'événement en dict et ajouter le champ is_participating
         event_data = event.__dict__
         event_data['is_participating'] = is_participating
+
         response.append(event_data)
 
     return response

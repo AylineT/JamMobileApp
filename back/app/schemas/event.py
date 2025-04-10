@@ -1,14 +1,14 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
-from app.schemas.address import AddressResponse  # Nouvel import
+from app.schemas.address import AddressResponse, AddressBase
 
 
 # Schéma de base pour un événement
 class EventBase(BaseModel):
     title: str
     description: Optional[str] = None
-    location: Optional[str] = None
+    location_id: Optional[int] = None
     event_date: datetime
 
 # Schéma pour la création d'un événement
@@ -65,7 +65,7 @@ class EventWithParticipationResponse(BaseModel):
     id: int
     title: str
     description: str
-    location: str
+    location_id: int
     event_date: datetime
     created_at: datetime
     created_by: int
