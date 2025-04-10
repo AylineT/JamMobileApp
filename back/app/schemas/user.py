@@ -5,6 +5,8 @@ class UserResponse(BaseModel):
     id: int
     username: str
     email: str
+    full_name: Optional[str] = None
+    bio: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 
