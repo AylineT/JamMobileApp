@@ -7,7 +7,7 @@ from typing import List
 from app.schemas.conversation import ConversationResponse
 
 
-router = APIRouter(prefix="/conversations", tags=["conversations"])
+router = APIRouter()
 
 @router.post("/", response_model=ConversationResponse)
 def create_conversation(convo: ConversationCreate, db: Session = Depends(get_db)):
