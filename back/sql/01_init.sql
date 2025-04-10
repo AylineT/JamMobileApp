@@ -1,9 +1,9 @@
-DROP TABLE Users CASCADE;
-DROP TABLE Address CASCADE;
-DROP TABLE Events CASCADE;
-DROP TABLE Messages CASCADE;
-DROP TABLE EventParticipants CASCADE;
-DROP TABLE EventHosts CASCADE;
+DROP TABLE IF EXISTS EventParticipants CASCADE;
+DROP TABLE IF EXISTS EventHosts CASCADE;
+DROP TABLE IF EXISTS Events CASCADE;
+DROP TABLE IF EXISTS Users CASCADE;
+DROP TABLE IF EXISTS Messages CASCADE;
+
 
 
 -- Users Table
@@ -46,17 +46,18 @@ CREATE TABLE IF NOT EXISTS Events (
     FOREIGN KEY (location_id) REFERENCES Address(id)
 );
 
--- Messages Table
-CREATE TABLE IF NOT EXISTS Messages (
-    id SERIAL PRIMARY KEY,
-    content TEXT NOT NULL,
-    sender_id INT,
-    receiver_id INT,
-    event_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES Users(id),
-    FOREIGN KEY (event_id) REFERENCES Events(id)
-);
+
+-- -- Messages Table
+-- CREATE TABLE IF NOT EXISTS Messages (
+--     id SERIAL PRIMARY KEY,
+--     content TEXT NOT NULL,
+--     sender_id INT,
+--     event_id INT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (sender_id) REFERENCES Users(id),
+--     FOREIGN KEY (event_id) REFERENCES Events(id)
+-- );
+
 
 -- EventParticipants Table
 CREATE TABLE IF NOT EXISTS EventParticipants (
