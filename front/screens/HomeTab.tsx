@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React from 'react'
 // import { YStack, Text } from 'tamagui'
 // import MapView, { Marker, Callout } from 'react-native-maps'
@@ -102,6 +103,44 @@ export const HomeTab = () => {
       date: 'Dimanche après-midi',
     },
   ]
+=======
+import React, { useEffect, useState } from 'react'
+import { YStack } from 'tamagui'
+import MapView, { Marker, Callout } from 'react-native-maps'
+import { StyledCard } from '../components/atoms/StyledCard'
+import { Jam, useNavigationStore } from "@/store/navigationStore";
+import jamService from '@/services/jamService';
+
+export const HomeTab = () => {
+  const [jams, setJams] = useState<Jam[]>([])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
+  const { setActiveTab, setJam } = useNavigationStore();
+
+  const onPress = (jam: Jam) => {
+    console.log("ok")
+    setActiveTab("jamsDetails")
+    setJam(jam)
+  }
+
+  useEffect(() => {
+    const getJams = async () => {
+      try {
+        setLoading(true);
+        setError('');
+        const events = await jamService.getAllJams();
+        setJams(events)
+      } catch (err) {
+        console.error('Login failed:', err);
+        setError('Invalid email or password');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getJams()
+  }, [])
+>>>>>>> d65d85dda27ad032de2580f2fcb21a6ae3ff61e6
 
   useEffect(() => {
     async function getCurrentLocation() {
@@ -186,6 +225,7 @@ export const HomeTab = () => {
   }
 
   return (
+<<<<<<< HEAD
     <YStack flex={1} position="relative" overflow="hidden">
       {userLocation ? (
         <>
@@ -242,6 +282,31 @@ export const HomeTab = () => {
           {errorMsg && <Text color="red">{errorMsg}</Text>}
         </YStack>
       )}
+=======
+    <YStack flex={1}>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 48.8719,
+          longitude: 2.3359,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        {jams.map((jam) => {
+          const {id, location} = jam
+          const { label, ...coordinates } = location;
+          return (
+            <Marker key={id} coordinate={coordinates}>
+              <Callout tooltip>
+                <StyledCard jam={jam} onPress={() => onPress(jam)}/>
+              </Callout>
+            </Marker>
+            )
+          })
+        }
+      </MapView>
+>>>>>>> d65d85dda27ad032de2580f2fcb21a6ae3ff61e6
     </YStack>
   )
 }

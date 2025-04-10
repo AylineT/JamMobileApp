@@ -30,7 +30,7 @@ export default function ProfileScreen() {
 
   return (
     <YStack flex={1} background="black" padding="2%" justifyContent="center">
-      <Text fontSize="$6" fontWeight="bold" color="$white" textAlign="center" marginBottom="2%">
+      <Text fontSize={28} fontWeight="bold" color="$white" textAlign="center" marginBottom="2%">
         Créer votre profil
       </Text>
 

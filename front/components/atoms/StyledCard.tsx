@@ -1,40 +1,40 @@
-import { Card, Image, Text, Button } from 'tamagui'
-import { ReactNode } from 'react'
+import { Card, Text, YStack } from 'tamagui'
+import { Jam } from '@/store/navigationStore'
 
-interface StyledCardProps {
-  title: string
-  onPress?: () => void
-  children?: ReactNode
+interface JamProps {
+  jam: Jam;
+  onPress?: () => void 
 }
 
-export const StyledCard = ({ title, onPress, children }: StyledCardProps) => {
+export const StyledCard = ({ jam, onPress }: JamProps) => {
+  const { title, id, created_by, location, 
+    image = "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M=" 
+  } = jam
+  const { label } = location;
+  
+
   return (
-    <Card
+    <YStack
       elevation={2}
       width={220}
-      padding={"$3" as any}
-      backgroundColor="white"
+      padding={8}
+      backgroundColor="$white"
       borderRadius={8}
-      gap={"$2" as any}
+      gap={8}
+      height="100%"
+      onPress={onPress}
     >
-      <Image
-        source={{ uri: 'https://source.unsplash.com/400x200/?music' }}
-        height={100}
-        borderRadius={"$3" as any}
-      />
-
-      <Text fontSize="$5" fontWeight="700" color="black">
+      <Text fontSize={14} fontWeight="700" color="$black">
         {title}
       </Text>
+      <Text fontSize={14} marginTop={4} color="$black">
+        Créé par {created_by}
+      </Text>
+      <Text fontSize={14} marginTop={4} color="$black">
+        Où ça ? {label}
+      </Text>
 
-      {children} {/* <- ce qu'on insère depuis HomeTab */}
-
-      {onPress && (
-        <Button size={"$2" as any} theme={"active" as any} onPress={onPress}>
-          Voir le détail
-        </Button>
-      )}
-    </Card>
+      {/* <CustomButton onPress={() => onPress} text="Voir le détail"/> */}
+    </YStack>
   )
 }
-

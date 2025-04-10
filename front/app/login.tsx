@@ -60,7 +60,7 @@ export default function LoginScreen() {
       />
 
       <CustomButton text="Continuer" onPress={handleLogin} />
-
+{/* 
       <ThirdPartyButton
         icon={<AntDesign name="google" size={20} color="$black" />}
         text="Se connecter avec Compte Google"
@@ -71,7 +71,7 @@ export default function LoginScreen() {
         icon={<Ionicons name="logo-apple" size={20} color="black" />}
         text="Se connecter avec Compte Apple"
         onPress={() => console.log('Connexion Apple')}
-      />
+      /> */}
 
       <LinkText
         label="Pas de compte ?"

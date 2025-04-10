@@ -20,7 +20,6 @@ ALTER SEQUENCE address_id_seq RESTART WITH 1;
 ALTER SEQUENCE conversations_id_seq RESTART WITH 1;
 ALTER SEQUENCE events_id_seq RESTART WITH 1;
 ALTER SEQUENCE messages_id_seq RESTART WITH 1;
-ALTER SEQUENCE refreshtokens_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 -- Insert fake data into Users table
