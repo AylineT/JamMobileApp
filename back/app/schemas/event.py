@@ -53,3 +53,16 @@ class EventDetailResponse(EventResponse):
     hosts: List[EventHostResponse] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+class EventWithParticipationResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    location: str
+    event_date: datetime
+    created_at: datetime
+    created_by: int
+    is_participating: bool
+    
+    model_config = ConfigDict(from_attributes=True)
+
