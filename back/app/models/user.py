@@ -7,17 +7,21 @@ class User(Base):
     """Modèle SQLAlchemy pour les utilisateurs (musiciens)"""
     __tablename__ = "users"
 
-    id              = Column(Integer, primary_key=True, index=True)
-    username        = Column(String, unique=True, index=True)
-    email           = Column(String, unique=True, index=True)
+
+
+
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    full_name       = Column(String, nullable=True)
-    bio             = Column(String, nullable=True)
-    created_at      = Column(DateTime, default=datetime.utcnow)  # ✅ ici on fixe le default
+    full_name = Column(String, nullable=True)
+    bio = Column(String, nullable=True)
+    created_at = Column(DateTime, default=True)
 
     # Relations
-    messages        = relationship("Message", back_populates="sender")
+    messages = relationship("Message", back_populates="sender")
+    created_events = relationship("Event", back_populates="creator", foreign_keys="[Event.created_by]")
+    participated_events = relationship("EventParticipant", back_populates="user")
+    hosted_events = relationship("EventHost", back_populates="user")
 
-    # events = relationship("Event", back_populates="organizer")
-    # messages_sent = relationship("Message", foreign_keys="Message.sender_id", back_populates="sender")
-    # messages_received = relationship("Message", foreign_keys="Message.recipient_id", back_populates="recipient")

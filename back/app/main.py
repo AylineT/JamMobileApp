@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.core.config import settings
+
+from .routes import user, auth, event, address  # Ajout de l'import address
+from .core.config import settings
 
 # Import des routes
 from app.routes import user, auth, messages, conversations
@@ -33,8 +35,12 @@ app.add_middleware(
 # Inclusion des routeurs
 app.include_router(user.router, prefix="/users", tags=["user"])
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(messages.router, tags=["messages"])
-app.include_router(conversations.router, tags=["conversations"])
+
+app.include_router(messages.router, prefix="/messages", tags=["messages"])
+app.include_router(conversations.router, prefix="/conversations", tags=["conversations"])
+
+app.include_router(event.router, prefix="/events", tags=["event"])
+app.include_router(address.router, prefix="/addresses", tags=["address"])  # Ajout du routeur
 
 
 @app.get("/")
