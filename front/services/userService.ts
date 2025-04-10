@@ -28,10 +28,10 @@ const userService = {
     return response.data;
   },
 
-  // updateUser: async (id: number, userData: UserUpdateData): Promise<User> => {
-  //   const response = await API.put(`/users/${id}`, userData);
-  //   return response.data;
-  // },
+  update: async (id: number, userData: UserUpdateData): Promise<User> => {
+    const response = await API.patch(`/users/${id}`, userData);
+    return response.data;
+  },
 
   register: async (body: { email: string; password: string, username: string }): Promise<{ refresh_token: string }> => {
     const response = await API.post('/auth/register', body);

@@ -6,6 +6,6 @@ interface EventsProps {
 }
 
 export const useEventsStore = create<EventsProps>((set) => ({
-  activeTab: "coming",
+  activeTab: "mine",
   setActiveTab: (value) => set({ activeTab: value }),
 }));
