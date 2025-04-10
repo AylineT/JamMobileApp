@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, contains_eager
+from sqlalchemy import or_, and_
 from typing import List
 from datetime import datetime
 import pytz
@@ -7,6 +8,7 @@ import pytz
 from app.core.database import get_db
 from app.core.security import get_current_user
 from app.models.user import User
+
 from app.models.event import Event
 from app.models.event_relations import EventParticipant, EventHost
 from app.schemas.event import (
@@ -15,7 +17,8 @@ from app.schemas.event import (
     EventDetailResponse, 
     EventParticipantResponse,
     EventHostResponse,
-    EventUserResponse
+    EventUserResponse,
+    EventWithParticipationResponse
 )
 
 router = APIRouter()
@@ -232,3 +235,44 @@ def add_event_participant(
     db.refresh(new_participant)
     
     return new_participant
+
+@router.get("/all/with-participation", response_model=List[EventWithParticipationResponse])
+def get_all_events_with_participation(
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Récupérer tous les événements avec une indication si l'utilisateur courant y participe.
+    """
+    # Récupérer tous les événements avec une jointure gauche pour vérifier la participation
+    events = db.query(Event)\
+        .outerjoin(
+            EventParticipant,
+            and_(
+                EventParticipant.event_id == Event.id,
+                EventParticipant.user_id == current_user.id
+            )
+        )\
+        .add_entity(EventParticipant)\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
+
+    # Préparer la réponse
+    response = []
+    for event, participant in events:
+        event_dict = {
+            "id": event.id,
+            "title": event.title,
+            "description": event.description,
+            "location": event.location,
+            "event_date": event.event_date,
+            "created_at": event.created_at,
+            "created_by": event.created_by,
+            "is_participating": participant is not None
+        }
+        response.append(event_dict)
+
+    return response
