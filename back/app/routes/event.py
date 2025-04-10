@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session, contains_eager
+from sqlalchemy.orm import Session, contains_eager, joinedload
 from sqlalchemy import or_, and_
 from typing import List
 from datetime import datetime
 import pytz
+
 
 from app.core.database import get_db
 from app.core.security import get_current_user
@@ -18,9 +19,10 @@ from app.schemas.event import (
     EventParticipantResponse,
     EventHostResponse,
     EventUserResponse,
-    EventWithParticipationResponse
+    EventWithParticipationResponse,
+    LocationResponse
 )
-from app.schemas.address import AddressResponse  # Nouvel import
+from app.schemas.address import AddressResponse  
 
 
 router = APIRouter()
@@ -58,7 +60,7 @@ def create_event(
     new_event = Event(
         title=event_data.title,
         description=event_data.description,
-        location_id=event_data.location_id,  # Nouveau champ
+        location_id=event_data.location_id,
         event_date=event_data.event_date,
         created_by=current_user.id,
         created_at=datetime.now(pytz.timezone('Europe/Paris'))
@@ -251,32 +253,35 @@ def get_all_events_with_participation(
     Récupérer tous les événements avec une indication si l'utilisateur courant y participe.
     Retourne une liste d'événements avec un champ supplémentaire 'is_participating'.
     """
-    # Récupérer tous les événements avec une jointure gauche sur les participants
     events = db.query(Event)\
-        .outerjoin(
-            EventParticipant,
-            and_(
-                EventParticipant.event_id == Event.id,
-                EventParticipant.user_id == current_user.id
-            )
-        )\
+        .options(joinedload(Event.address), joinedload(Event.participants))\
         .offset(skip)\
         .limit(limit)\
         .all()
 
-    # Créer la réponse avec l'information de participation
     response = []
+
     for event in events:
-        # Vérifier si l'utilisateur courant participe à cet événement
         is_participating = any(
             participant.user_id == current_user.id 
             for participant in event.participants
         )
-        
-        # Convertir l'événement en dict et ajouter le champ is_participating
-        event_data = event.__dict__
-        event_data['is_participating'] = is_participating
 
-        response.append(event_data)
+        event_response = EventWithParticipationResponse(
+            id=event.id,
+            title=event.title,
+            description=event.description,
+            event_date=event.event_date,
+            created_at=event.created_at,
+            created_by=event.created_by,
+            is_participating=is_participating,
+            location=LocationResponse(
+                longitude=event.address.longitude,
+                latitude=event.address.latitude,
+            )
+
+        )
+
+        response.append(event_response)
 
     return response

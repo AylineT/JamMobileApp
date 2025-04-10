@@ -16,6 +16,19 @@ class EventCreate(EventBase):
     pass
 
 # Schéma pour la réponse d'un événement complet
+class EventResponseWithResponse(EventBase):
+    id: int
+    title: str
+    description: Optional[str] = None
+    location_id: Optional[int] = None
+    address: Optional[AddressResponse] = None  # Nouveau champ
+    event_date: datetime
+    created_by: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+# Schéma pour la réponse d'un événement complet
 class EventResponse(EventBase):
     id: int
     title: str
@@ -61,15 +74,22 @@ class EventDetailResponse(EventResponse):
 
     model_config = ConfigDict(from_attributes=True)
 
+class LocationResponse(BaseModel):
+    longitude: float
+    latitude: float
+
+
+    model_config = ConfigDict(from_attributes=True)
+
 class EventWithParticipationResponse(BaseModel):
     id: int
     title: str
     description: str
-    location_id: int
+    location: LocationResponse
     event_date: datetime
     created_at: datetime
     created_by: int
     is_participating: bool
-    
+
     model_config = ConfigDict(from_attributes=True)
 
