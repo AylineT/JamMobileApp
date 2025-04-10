@@ -77,6 +77,7 @@ class EventDetailResponse(EventResponse):
 class LocationResponse(BaseModel):
     longitude: float
     latitude: float
+    label: str
 
 
     model_config = ConfigDict(from_attributes=True)

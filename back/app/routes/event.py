@@ -278,6 +278,7 @@ def get_all_events_with_participation(
             location=LocationResponse(
                 longitude=event.address.longitude,
                 latitude=event.address.latitude,
+                label=event.address.label,
             )
 
         )
