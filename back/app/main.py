@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import user, auth, event
+from .routes import user, auth, event, address  # Ajout de l'import address
 from .core.config import settings
 
 # Pour lance l'app
@@ -27,6 +27,7 @@ app.add_middleware(
 app.include_router(user.router, prefix="/users", tags=["user"])
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(event.router, prefix="/events", tags=["event"])
+app.include_router(address.router, prefix="/addresses", tags=["address"])  # Ajout du routeur
 
 @app.get("/")
 def read_root():

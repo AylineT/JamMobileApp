@@ -1,6 +1,8 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
+from app.schemas.address import AddressResponse  # Nouvel import
+
 
 # Schéma de base pour un événement
 class EventBase(BaseModel):
@@ -16,6 +18,11 @@ class EventCreate(EventBase):
 # Schéma pour la réponse d'un événement complet
 class EventResponse(EventBase):
     id: int
+    title: str
+    description: Optional[str] = None
+    location_id: Optional[int] = None
+    address: Optional[AddressResponse] = None  # Nouveau champ
+    event_date: datetime
     created_by: int
     created_at: datetime
 
