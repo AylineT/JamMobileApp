@@ -3,7 +3,7 @@ import { useEventsStore } from "@/store/eventsStore";
 import { YStack, Tabs, SizableText } from "tamagui";
 import { useEffect, useState } from "react";
 import jamService from "@/services/jamService";
-
+import {Jam} from "../components/atoms/Jam"
 const tabs = [
   {
     value: "mine",
