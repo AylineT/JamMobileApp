@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # Configuration CORS 
+    CORS_ORIGINS: List[str] = []
 
     # Remplacez la classe Config interne par:
     model_config = ConfigDict(
