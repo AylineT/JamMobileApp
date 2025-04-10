@@ -1,23 +1,16 @@
+import LogoTitle from '@/components/molecules/LogoTitle'
+import CustomLinkButton from '@/components/atoms/CustomLinkButton'
 import { YStack } from 'tamagui';
-import { NavBar } from "@/components/organisms/navbar"
-import { useNavigationStore } from '@/store/navigationStore';
-import { HomeTab } from "@/screens/HomeTab";
-import { MessagesTab } from '@/screens/MessagesTab';
-import { JamsTab } from '@/screens/JamsTab';
-import { ProfileTab } from '@/screens/ProfileTab';
 
 export default function Index() {
-  const { activeTab } = useNavigationStore();
-
   return (
-    <YStack flex={1}>
-      <YStack flex={1}>
-        {activeTab === 0 && <HomeTab />}
-        {activeTab === 1 && <MessagesTab />}
-        {activeTab === 2 && <JamsTab />}
-        {activeTab === 3 && <ProfileTab />}
-      </YStack>
-      <NavBar />
+    <YStack flex={1} justifyContent="center" alignItems="center" backgroundColor="$black" padding="$md">
+      <LogoTitle size={30} />
+
+      <CustomLinkButton text="Se connecter" href="/login" />
+      <CustomLinkButton text="S’inscrire" href="/register" variant="secondary" />
+      <CustomLinkButton text="accéder à la home" href="/home" variant="secondary" />
+
     </YStack>
-  );
+  )
 }

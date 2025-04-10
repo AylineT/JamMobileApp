@@ -15,7 +15,7 @@ const tabs = [
     title: "Messages"
   },
   {
-    value: "Jams", 
+    value: "jams", 
     Icon: Music,
     title: "Jams"
   },
@@ -42,17 +42,18 @@ export const NavBar: React.FC = () => {
           justifyContent="space-around"
           backgroundColor="$black"
         >
-          {tabs.map(({value, Icon, title}, index) => {
+          {tabs.map(({value, Icon, title}) => {
             return (
               <Tabs.Tab
                 value={value}
-                onPress={() => setActiveTab(index)}
+                key={`nav-item-${value}`}
+                onPress={() => setActiveTab(value)}
                 flexDirection="column"
                 paddingVertical={10}
                 backgroundColor="$black"
               >
-                <Icon size={24} color={activeTab === index ? "$primary" : "$white"} />
-                <SizableText fontSize={12} color={activeTab === index ? "$primary" : "$white"}>{title}</SizableText>
+                <Icon size={24} color={activeTab === value ? "$primary" : "$white"} />
+                <SizableText fontSize={12} color={activeTab === value ? "$primary" : "$white"}>{title}</SizableText>
               </Tabs.Tab>
             )
           })}

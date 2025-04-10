@@ -1,50 +1,40 @@
-// import { styled, Card } from 'tamagui'
+import { Card, Text, YStack } from 'tamagui'
+import { Jam } from '@/store/navigationStore'
 
-// export const StyledCard = styled(Card, {
-//   borderRadius: '$4' as any,
-//   padding: '$3' as any,
-//   width: 200,
-// })
-
-// src/components/atoms/StyledCard.tsx
-
-import { Card, Image, Text, Button } from 'tamagui'
-import { ReactNode } from 'react'
-
-interface StyledCardProps {
-  title: string
-  onPress?: () => void
-  children?: ReactNode
+interface JamProps {
+  jam: Jam;
+  onPress?: () => void 
 }
 
-export const StyledCard = ({ title, onPress, children }: StyledCardProps) => {
-  return (
-    <Card
-      elevation={2} // ← valeur fixe et sûre
-      width={220}
-      padding={"$3" as any}
-      backgroundColor="white"
-      borderRadius={"$4" as any}
-      gap={"$2" as any}
-    >
-      <Image
-        source={{ uri: 'https://source.unsplash.com/400x200/?music' }}
-        height={100}
-        borderRadius={"$3" as any}
-      />
+export const StyledCard = ({ jam, onPress }: JamProps) => {
+  const { title, id, created_by, location, 
+    image = "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M=" 
+  } = jam
+  const { label } = location;
+  
 
-      <Text fontSize="$5" fontWeight="700" color="black">
+  return (
+    <YStack
+      elevation={2}
+      width={220}
+      padding={8}
+      backgroundColor="$white"
+      borderRadius={8}
+      gap={8}
+      height="100%"
+      onPress={onPress}
+    >
+      <Text fontSize={14} fontWeight="700" color="$black">
         {title}
       </Text>
+      <Text fontSize={14} marginTop={4} color="$black">
+        Créé par {created_by}
+      </Text>
+      <Text fontSize={14} marginTop={4} color="$black">
+        Où ça ? {label}
+      </Text>
 
-      {children} {/* <- ce qu'on insère depuis HomeTab */}
-
-      {onPress && (
-        <Button size={"$2" as any} theme={"active" as any} onPress={onPress}>
-          Voir le détail
-        </Button>
-      )}
-    </Card>
+      {/* <CustomButton onPress={() => onPress} text="Voir le détail"/> */}
+    </YStack>
   )
 }
-

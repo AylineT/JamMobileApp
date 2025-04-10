@@ -1,29 +1,39 @@
-import React from 'react'
-import { YStack, Text } from 'tamagui'
+import React, { useEffect, useState } from 'react'
+import { YStack } from 'tamagui'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import { StyledCard } from '../components/atoms/StyledCard'
+import { Jam, useNavigationStore } from "@/store/navigationStore";
+import jamService from '@/services/jamService';
 
 export const HomeTab = () => {
-  const jams = [
-    {
-      id: 'jam-1',
-      title: 'Jazz & Jam 🥁',
-      créateur: 'DJ Snake',
-      location: { latitude: 48.8719, longitude: 2.3359 },
-    },
-    {
-      id: 'jam-2',
-      title: 'Funk Session 🎸',
-      créateur: '50 Cent',
-      location: { latitude: 48.8689, longitude: 2.3369 },
-    },
-    {
-      id: 'jam-3',
-      title: 'Rock N’ Roll 🤘',
-      créateur: 'Lady Gaga',
-      location: { latitude: 48.8729, longitude: 2.3339 },
-    },
-  ]
+  const [jams, setJams] = useState<Jam[]>([])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
+  const { setActiveTab, setJam } = useNavigationStore();
+
+  const onPress = (jam: Jam) => {
+    console.log("ok")
+    setActiveTab("jamsDetails")
+    setJam(jam)
+  }
+
+  useEffect(() => {
+    const getJams = async () => {
+      try {
+        setLoading(true);
+        setError('');
+        const events = await jamService.getAllJams();
+        setJams(events)
+      } catch (err) {
+        console.error('Login failed:', err);
+        setError('Invalid email or password');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getJams()
+  }, [])
 
   return (
     <YStack flex={1}>
@@ -36,23 +46,18 @@ export const HomeTab = () => {
           longitudeDelta: 0.01,
         }}
       >
-        {jams.map((jam) => (
-          <Marker key={jam.id} coordinate={jam.location}>
-            <Callout tooltip>
-              <StyledCard
-                title={jam.title}
-                onPress={() => {
-                  console.log('Click sur jam', jam.id)
-                  // ici tu pourras faire router.push(`/jam/${jam.id}`)
-                }}
-              >
-                <Text fontSize="$2" marginTop={"$1" as any} color="black">
-                  Créé par {jam.créateur}
-                </Text>
-              </StyledCard>
-            </Callout>
-          </Marker>
-        ))}
+        {jams.map((jam) => {
+          const {id, location} = jam
+          const { label, ...coordinates } = location;
+          return (
+            <Marker key={id} coordinate={coordinates}>
+              <Callout tooltip>
+                <StyledCard jam={jam} onPress={() => onPress(jam)}/>
+              </Callout>
+            </Marker>
+            )
+          })
+        }
       </MapView>
     </YStack>
   )
