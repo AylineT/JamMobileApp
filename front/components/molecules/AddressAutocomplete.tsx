@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { YStack } from 'tamagui';
 import CustomInput from '@/components/atoms/CustomInput';
 import { debounce } from 'lodash';
@@ -136,7 +136,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
       />
       
       {showResults && !selectedAddress && (
-        <View style={styles.resultsContainer}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.resultsContainer}>
           {isLoading ? (
             <ActivityIndicator size="small" color="#0000ff" style={styles.loader} />
           ) : error ? (
@@ -159,7 +159,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
           ) : query.length > 2 ? (
             <Text style={styles.noResultsText}>Aucune adresse trouvée</Text>
           ) : null}
-        </View>
+        </KeyboardAvoidingView>
       )}
       
       {selectedAddress && (

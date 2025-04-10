@@ -14,7 +14,7 @@ type Props = {
 export default function CustomInput({ placeholder, value = "", onChangeText, secureTextEntry = false, label, disabled, type, onFocus }: Props) {
   const Field = type === "textarea" ? TextArea : Input
   return (
-    <YStack>
+    <YStack width="100%">
       {label && <Text>{label}</Text>}
       <Field
         placeholder={placeholder}

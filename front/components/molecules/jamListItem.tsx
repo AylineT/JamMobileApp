@@ -1,27 +1,10 @@
 import { Text, YStack, Image, Button, XStack } from "tamagui"
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { useNavigationStore } from '@/store/navigationStore';
+import { useNavigationStore, Jam } from '@/store/navigationStore';
 import { ChevronRight, CircleCheck } from "@tamagui/lucide-icons";
 import { useState } from "react";
 import jamService from "@/services/jamService";
-
-interface JamAddress {
-  longitude: number;
-  latitude: number;
-  label: string;
-}
-export interface Jam {
-  id: number;
-  title: string;
-  image?: string;
-  is_participating: boolean;
-  event_date: Date;
-  location_id: number;
-  description: string;
-  created_by: number;
-  location: JamAddress;
-}
 
 interface JamListItemProps {
   jam: Jam;

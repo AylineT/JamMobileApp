@@ -1,36 +1,36 @@
 import { createFont, createTamagui, getConfig } from '@tamagui/core'
 
-const customFont = createFont({
-  family: 'Inter',
-  size: {
-    true: 16,
-    1: 12,
-    2: 14,
-    3: 16,
-    4: 18,
-    5: 20,
-    6: 24,
-    7: 30,
-  },
-  lineHeight: {
-    true: 22,
-    1: 16,
-    2: 20,
-    3: 22,
-    4: 24,
-    5: 28,
-    6: 32,
-    7: 40,
-  },
-  weight: {
-    true: '400',
-    4: '400',
-    7: '700',
-  },
-  letterSpacing: {
-    4: 0,
-  },
-})
+// const customFont = createFont({
+//   family: 'Inter',
+//   size: {
+//     true: 16,
+//     1: 12,
+//     2: 14,
+//     3: 16,
+//     4: 18,
+//     5: 20,
+//     6: 24,
+//     7: 30,
+//   },
+//   lineHeight: {
+//     true: 22,
+//     1: 16,
+//     2: 20,
+//     3: 22,
+//     4: 24,
+//     5: 28,
+//     6: 32,
+//     7: 40,
+//   },
+//   weight: {
+//     true: '400',
+//     4: '400',
+//     7: '700',
+//   },
+//   letterSpacing: {
+//     4: 0,
+//   },
+// })
 
 export const config = createTamagui({
   tokens: {
@@ -72,10 +72,10 @@ export const config = createTamagui({
     allowedStyleValues: 'somewhat-strict-web', // if targeting only web
   },
 
-  fonts: {
-    body: customFont,
-    heading: customFont
-  }
+  // fonts: {
+  //   body: customFont,
+  //   heading: customFont
+  // }
 })
 
 // in other files use this:

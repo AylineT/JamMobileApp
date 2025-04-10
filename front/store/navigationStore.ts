@@ -6,7 +6,7 @@ interface JamAddress {
   label: string;
 }
 
-interface Jam {
+export interface Jam {
   id: number;
   title: string;
   image?: string;

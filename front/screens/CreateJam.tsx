@@ -123,7 +123,7 @@ export const CreateJam = () => {
             <Text fontSize="$3" color="$white">
               ✓ Adresse: {selectedAddress.label}
             </Text>
-            <Text fontSize="$2" color="gray">
+            <Text fontSize={14} color="gray">
               {selectedAddress.city} ({selectedAddress.postcode})
             </Text>
           </YStack>
