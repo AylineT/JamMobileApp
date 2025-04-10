@@ -245,8 +245,9 @@ def get_all_events_with_participation(
 ):
     """
     Récupérer tous les événements avec une indication si l'utilisateur courant y participe.
+    Retourne une liste d'événements avec un champ supplémentaire 'is_participating'.
     """
-    # Récupérer tous les événements avec une jointure gauche pour vérifier la participation
+    # Récupérer tous les événements avec une jointure gauche sur les participants
     events = db.query(Event)\
         .outerjoin(
             EventParticipant,
@@ -255,24 +256,22 @@ def get_all_events_with_participation(
                 EventParticipant.user_id == current_user.id
             )
         )\
-        .add_entity(EventParticipant)\
         .offset(skip)\
         .limit(limit)\
         .all()
 
-    # Préparer la réponse
+    # Créer la réponse avec l'information de participation
     response = []
-    for event, participant in events:
-        event_dict = {
-            "id": event.id,
-            "title": event.title,
-            "description": event.description,
-            "location": event.location,
-            "event_date": event.event_date,
-            "created_at": event.created_at,
-            "created_by": event.created_by,
-            "is_participating": participant is not None
-        }
-        response.append(event_dict)
+    for event in events:
+        # Vérifier si l'utilisateur courant participe à cet événement
+        is_participating = any(
+            participant.user_id == current_user.id 
+            for participant in event.participants
+        )
+        
+        # Convertir l'événement en dict et ajouter le champ is_participating
+        event_data = event.__dict__
+        event_data['is_participating'] = is_participating
+        response.append(event_data)
 
     return response
