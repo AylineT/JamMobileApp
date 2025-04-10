@@ -1,12 +1,14 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime
+from app.schemas.address import AddressResponse, AddressBase
+
 
 # Schéma de base pour un événement
 class EventBase(BaseModel):
     title: str
     description: Optional[str] = None
-    location: Optional[str] = None
+    location_id: Optional[int] = None
     event_date: datetime
 
 # Schéma pour la création d'un événement
@@ -14,8 +16,26 @@ class EventCreate(EventBase):
     pass
 
 # Schéma pour la réponse d'un événement complet
+class EventResponseWithResponse(EventBase):
+    id: int
+    title: str
+    description: Optional[str] = None
+    location_id: Optional[int] = None
+    address: Optional[AddressResponse] = None  # Nouveau champ
+    event_date: datetime
+    created_by: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+# Schéma pour la réponse d'un événement complet
 class EventResponse(EventBase):
     id: int
+    title: str
+    description: Optional[str] = None
+    location_id: Optional[int] = None
+    address: Optional[AddressResponse] = None  # Nouveau champ
+    event_date: datetime
     created_by: int
     created_at: datetime
 
@@ -54,15 +74,23 @@ class EventDetailResponse(EventResponse):
 
     model_config = ConfigDict(from_attributes=True)
 
+class LocationResponse(BaseModel):
+    longitude: float
+    latitude: float
+    label: str
+
+
+    model_config = ConfigDict(from_attributes=True)
+
 class EventWithParticipationResponse(BaseModel):
     id: int
     title: str
     description: str
-    location: str
+    location: LocationResponse
     event_date: datetime
     created_at: datetime
     created_by: int
     is_participating: bool
-    
+
     model_config = ConfigDict(from_attributes=True)
 

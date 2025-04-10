@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session, contains_eager
+from sqlalchemy.orm import Session, contains_eager, joinedload
 from sqlalchemy import or_, and_
 from typing import List
 from datetime import datetime
 import pytz
+
 
 from app.core.database import get_db
 from app.core.security import get_current_user
@@ -18,8 +19,11 @@ from app.schemas.event import (
     EventParticipantResponse,
     EventHostResponse,
     EventUserResponse,
-    EventWithParticipationResponse
+    EventWithParticipationResponse,
+    LocationResponse
 )
+from app.schemas.address import AddressResponse  
+
 
 router = APIRouter()
 
@@ -56,7 +60,7 @@ def create_event(
     new_event = Event(
         title=event_data.title,
         description=event_data.description,
-        location=event_data.location,
+        location_id=event_data.location_id,
         event_date=event_data.event_date,
         created_by=current_user.id,
         created_at=datetime.now(pytz.timezone('Europe/Paris'))
@@ -75,6 +79,8 @@ def create_event(
     
     db.add(new_host)
     db.commit()
+    db.refresh(new_event)
+
     
     return new_event
 
@@ -245,34 +251,38 @@ def get_all_events_with_participation(
 ):
     """
     Récupérer tous les événements avec une indication si l'utilisateur courant y participe.
+    Retourne une liste d'événements avec un champ supplémentaire 'is_participating'.
     """
-    # Récupérer tous les événements avec une jointure gauche pour vérifier la participation
     events = db.query(Event)\
-        .outerjoin(
-            EventParticipant,
-            and_(
-                EventParticipant.event_id == Event.id,
-                EventParticipant.user_id == current_user.id
-            )
-        )\
-        .add_entity(EventParticipant)\
+        .options(joinedload(Event.address), joinedload(Event.participants))\
         .offset(skip)\
         .limit(limit)\
         .all()
 
-    # Préparer la réponse
     response = []
-    for event, participant in events:
-        event_dict = {
-            "id": event.id,
-            "title": event.title,
-            "description": event.description,
-            "location": event.location,
-            "event_date": event.event_date,
-            "created_at": event.created_at,
-            "created_by": event.created_by,
-            "is_participating": participant is not None
-        }
-        response.append(event_dict)
+
+    for event in events:
+        is_participating = any(
+            participant.user_id == current_user.id 
+            for participant in event.participants
+        )
+
+        event_response = EventWithParticipationResponse(
+            id=event.id,
+            title=event.title,
+            description=event.description,
+            event_date=event.event_date,
+            created_at=event.created_at,
+            created_by=event.created_by,
+            is_participating=is_participating,
+            location=LocationResponse(
+                longitude=event.address.longitude,
+                latitude=event.address.latitude,
+                label=event.address.label,
+            )
+
+        )
+
+        response.append(event_response)
 
     return response
