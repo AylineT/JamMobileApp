@@ -1,8 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { FlatList } from 'react-native'
-import { YStack, XStack, Button, Input } from 'tamagui'
+import {
+  FlatList,
+  TextInput,
+  View,
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text
+} from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
-
 import { useAuthStore } from '../store/authStore'
 import {
   getMessagesByConversation,
@@ -71,7 +78,11 @@ export default function ChatScreen() {
   }
 
   return (
-    <YStack f={1} p="$3">
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={90}
+    >
       <FlatList
         ref={flatListRef}
         data={messages}
@@ -87,15 +98,37 @@ export default function ChatScreen() {
         }
       />
 
-      <XStack mt="$3" gap="$2" ai="center">
-        <Input
-          flex={1}
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Votre message..."
           value={messageInput}
           onChangeText={setMessageInput}
-          placeholder="Votre message..."
+          style={styles.input}
         />
-        <Button onPress={handleSendMessage}>Envoyer</Button>
-      </XStack>
-    </YStack>
+        <Button title="Envoyer" onPress={handleSendMessage} />
+      </View>
+    </KeyboardAvoidingView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 12,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 12,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+  },
+})

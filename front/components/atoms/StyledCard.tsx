@@ -1,15 +1,5 @@
-// import { styled, Card } from 'tamagui'
-
-// export const StyledCard = styled(Card, {
-//   borderRadius: '$4' as any,
-//   padding: '$3' as any,
-//   width: 200,
-// })
-
-// src/components/atoms/StyledCard.tsx
-
-import { Card, Image, Text, Button } from 'tamagui'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 
 interface StyledCardProps {
   title: string
@@ -17,34 +7,63 @@ interface StyledCardProps {
   children?: ReactNode
 }
 
-export const StyledCard = ({ title, onPress, children }: StyledCardProps) => {
+export const StyledCard: React.FC<StyledCardProps> = ({ title, onPress, children }) => {
   return (
-    <Card
-      elevation={2} // ← valeur fixe et sûre
-      width={220}
-      padding={"$3" as any}
-      backgroundColor="white"
-      borderRadius={"$4" as any}
-      gap={"$2" as any}
-    >
+    <View style={styles.card}>
       <Image
         source={{ uri: 'https://source.unsplash.com/400x200/?music' }}
-        height={100}
-        borderRadius={"$3" as any}
+        style={styles.image}
+        resizeMode="cover"
       />
 
-      <Text fontSize="$5" fontWeight="700" color="black">
-        {title}
-      </Text>
+      <Text style={styles.title}>{title}</Text>
 
-      {children} {/* <- ce qu'on insère depuis HomeTab */}
+      <View>{children}</View>
 
       {onPress && (
-        <Button size={"$2" as any} theme={"active" as any} onPress={onPress}>
-          Voir le détail
-        </Button>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
+          <Text style={styles.buttonText}>Voir le détail</Text>
+        </TouchableOpacity>
       )}
-    </Card>
+    </View>
   )
 }
 
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    width: 220,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginVertical: 10,
+  },
+  image: {
+    height: 100,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '100%',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: 'black',
+    marginBottom: 8,
+  },
+  button: {
+    backgroundColor: '#0086FF',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '600',
+  },
+})

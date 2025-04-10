@@ -1,4 +1,5 @@
-import { YStack } from 'tamagui'
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
 import { NavBar } from '../components/organisms/navbar'
 import { useNavigationStore } from '../store/navigationStore'
 import { HomeTab } from '../screens/HomeTab'
@@ -10,14 +11,23 @@ export default function Index() {
   const { activeTab } = useNavigationStore()
 
   return (
-    <YStack flex={1}>
-      <YStack flex={1}>
+    <View style={styles.container}>
+      <View style={styles.content}>
         {activeTab === 0 && <HomeTab />}
         {activeTab === 1 && <MessagesTab />}
         {activeTab === 2 && <JamsTab />}
         {activeTab === 3 && <ProfileTab />}
-      </YStack>
+      </View>
       <NavBar />
-    </YStack>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  content: {
+    flex: 1
+  }
+})

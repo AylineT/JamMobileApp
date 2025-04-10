@@ -1,63 +1,72 @@
-import React from 'react';
-import { Tabs, YStack, SizableText } from 'tamagui';
-import { Home, MessagesSquare, Music, User } from '@tamagui/lucide-icons';
+import React from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import Icon from 'react-native-vector-icons/Feather' // ou autre lib d’icônes installée
 import { useNavigationStore } from '../../store/navigationStore'
 
 const tabs = [
   {
-    value: "home", 
-    Icon: Home,
-    title: "Home"
+    key: 'home',
+    icon: 'home',
+    title: 'Home'
   },
   {
-    value: "messages", 
-    Icon: MessagesSquare,
-    title: "Messages"
+    key: 'messages',
+    icon: 'message-square',
+    title: 'Messages'
   },
   {
-    value: "Jams", 
-    Icon: Music,
-    title: "Jams"
+    key: 'jams',
+    icon: 'music',
+    title: 'Jams'
   },
   {
-    value: "profile", 
-    Icon: User,
-    title: "Profil"
+    key: 'profile',
+    icon: 'user',
+    title: 'Profil'
   }
 ]
 
 export const NavBar: React.FC = () => {
-  const { activeTab, setActiveTab } = useNavigationStore();
+  const { activeTab, setActiveTab } = useNavigationStore()
 
   return (
-    <YStack>
-      <Tabs
-        defaultValue="home"
-        orientation="horizontal"
-        flexDirection="column"
-        height={60}
-      >
-        <Tabs.List
-          disablePassBorderRadius
-          justifyContent="space-around"
-          backgroundColor="$black"
+    <View style={styles.container}>
+      {tabs.map((tab, index) => (
+        <TouchableOpacity
+          key={tab.key}
+          style={styles.tab}
+          onPress={() => setActiveTab(index)}
         >
-          {tabs.map(({value, Icon, title}, index) => {
-            return (
-              <Tabs.Tab
-                value={value}
-                onPress={() => setActiveTab(index)}
-                flexDirection="column"
-                paddingVertical={10}
-                backgroundColor="$black"
-              >
-                <Icon size={24} color={activeTab === index ? "$primary" : "$white"} />
-                <SizableText fontSize={12} color={activeTab === index ? "$primary" : "$white"}>{title}</SizableText>
-              </Tabs.Tab>
-            )
-          })}
-        </Tabs.List>
-      </Tabs>
-    </YStack>
-  );
-};
+          <Icon
+            name={tab.icon}
+            size={24}
+            color={activeTab === index ? '#007AFF' : '#ffffff'}
+          />
+          <Text style={[styles.label, activeTab === index && styles.activeText]}>
+            {tab.title}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    height: 60,
+    backgroundColor: '#000',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  tab: {
+    alignItems: 'center'
+  },
+  label: {
+    fontSize: 12,
+    color: '#ffffff'
+  },
+  activeText: {
+    color: '#007AFF'
+  }
+})
