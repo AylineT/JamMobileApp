@@ -1,13 +1,3 @@
-// import { styled, Card } from 'tamagui'
-
-// export const StyledCard = styled(Card, {
-//   borderRadius: '$4' as any,
-//   padding: '$3' as any,
-//   width: 200,
-// })
-
-// src/components/atoms/StyledCard.tsx
-
 import { Card, Image, Text, Button } from 'tamagui'
 import { ReactNode } from 'react'
 
@@ -20,11 +10,11 @@ interface StyledCardProps {
 export const StyledCard = ({ title, onPress, children }: StyledCardProps) => {
   return (
     <Card
-      elevation={2} // ← valeur fixe et sûre
+      elevation={2}
       width={220}
       padding={"$3" as any}
       backgroundColor="white"
-      borderRadius={"$4" as any}
+      borderRadius={8}
       gap={"$2" as any}
     >
       <Image

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Button, SizableText, YStack, Text, XStack } from "tamagui";
-import { useNavigation } from 'expo-router';
+import React, { useEffect, useState } from 'react'
+import { YStack, Text } from "tamagui";
 import { useRouter } from 'expo-router'
 import userService from "@/services/userService";
 
@@ -8,47 +7,68 @@ import ProfilePictureUploader from '@/components/molecules/ProfilePictureUploade
 import CustomInput from '@/components/atoms/CustomInput'
 import CustomButton from '@/components/atoms/CustomButton'
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  bio?: string;
+  instruments?: string;
+}
+
 export const ProfileTab = () => {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [instruments, setInstruments] = useState('')
-  const [influences, setInfluences] = useState('')
+  const [user, setUser] = useState<User>({} as User)
   const [error, setError] = useState('')
-  const navigation = useNavigation();
+  const router = useRouter()
+  
+  const { id, username, bio = "", email } = user || {};
 
   const logout = async () => {
     try {
       await userService.logout();
-      navigation.navigate('index')
+      router.replace('/')
     } catch (err) {
-      console.error('Login failed:', err);
+      console.error('Logout failed:', err);
     } finally {
       console.log("achieved")
     }
   };
 
-  const router = useRouter()
+  const update = async () => {
+    try {
+      setError('');
+      await userService.update(id, { ...user });
+    } catch (err) {
+      console.error('Update failed:', err);
+      setError('Failed to update profile');
+    } finally {
 
-  const handleSubmit = () => {
-    if (!name.trim() || !description.trim() || !instruments.trim()) {
-      setError('Veuillez remplir tous les champs obligatoires.')
-      return
     }
-
-    setError('')
-    console.log({ name, description, instruments, influences })
-
-    // Rediriger ou envoyer au backend
-    // router.push('/home') si besoin
   }
+
+  const onChange = (value: string, id: string) => {
+    setUser(current => ({...current, [id]: value}))
+  }
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const userData = await userService.getMe()
+        setUser(userData);
+      } catch (err) {
+        console.error('Failed to fetch user data:', err);
+        setError('Could not load profile data');
+      }
+    }
+    fetch()
+  }, [])
 
   return (
     <YStack flex={1} background="black" padding="2%" justifyContent="center">
       <Text fontSize="$6" fontWeight="bold" color="$white" textAlign="center" marginBottom="2%">
-        Créer votre profil
+        Votre profil
       </Text>
 
-      <ProfilePictureUploader />
+      {/* <ProfilePictureUploader /> */}
 
       {error.length > 0 && (
         <Text color="red" marginBottom="2%" textAlign="center">
@@ -56,28 +76,29 @@ export const ProfileTab = () => {
         </Text>
       )}
 
-      <CustomInput placeholder="Nom de profil" value={name} onChangeText={setName} />
-      <CustomInput placeholder="Description" value={description} onChangeText={setDescription} />
-      <CustomInput placeholder="Instruments joués" value={instruments} onChangeText={setInstruments} />
-      <CustomInput placeholder="Influences musicales" value={influences} onChangeText={setInfluences} />
+      <CustomInput 
+        label="Pseudo" 
+        placeholder="écrivez ici..." 
+        value={username} 
+        onChangeText={(value) => onChange(value, "username")} 
+      />
+      <CustomInput 
+        label="Bio" 
+        placeholder="écrivez ici..."
+        type="textarea"
+        value={bio} 
+        onChangeText={(value) => onChange(value, "bio")} 
+      />
+      <CustomInput 
+        label="Email" 
+        value={email} 
+        disabled={true}
+      />
 
-      <XStack  space="2%" width="100%"  justifyContent="space-between" marginTop="5%">
-        <YStack flex={1}>
-            <CustomButton
-            text="Annuler"
-            variant="secondary"
-            onPress={() => router.back()}
-            />
-        </YStack>
-
-        <YStack flex={1}>
-            <CustomButton
-            text="Valider"
-            onPress={handleSubmit}
-            />
-        </YStack>
-      </XStack>
-      <Button onPress={logout} color="$black">logout</Button>
+      <YStack space="2%" width="100%" justifyContent="space-between" marginTop="5%">
+        <CustomButton text="Valider les changements" onPress={update} />
+        <CustomButton text="Se déconnecter" variant="secondary" onPress={logout} />
+      </YStack>
     </YStack>
   )
 }

@@ -62,7 +62,6 @@ export default function ProfilePictureUploader() {
           </View>
         </View>
       </Pressable>
-      <Text color="$white" marginTop="2%">Nom de profil</Text>
     </YStack>
   )
 }

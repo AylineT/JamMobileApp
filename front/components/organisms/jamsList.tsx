@@ -8,7 +8,7 @@ interface JamListProps {
 }
 
 export const JamsList = ({ jams }: JamListProps) => {
-  const { setActiveTab} = useNavigationStore();
+  const { setActiveTab } = useNavigationStore();
 
   const onPress = () => {
     setActiveTab('createJam')

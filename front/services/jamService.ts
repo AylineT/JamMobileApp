@@ -54,21 +54,27 @@ const jamService = {
     return response.data;
   },
 
-  updateJam: async (jamId: number, jamData: JamUpdateData): Promise<Jam> => {
-    const response = await API.put(`/jams/${jamId}`, jamData);
+  getParticipants: async (id: number): Promise<Jam[]> => {
+    const response = await API.get(`/events/${id}/participants`);
     return response.data;
   },
 
-  // Delete jam
-  deleteJam: async (jamId: number): Promise<void> => {
-    await API.delete(`/jams/${jamId}`);
-  },
+
+  // updateJam: async (jamId: number, jamData: JamUpdateData): Promise<Jam> => {
+  //   const response = await API.put(`/jams/${jamId}`, jamData);
+  //   return response.data;
+  // },
+
+  // // Delete jam
+  // deleteJam: async (jamId: number): Promise<void> => {
+  //   await API.delete(`/jams/${jamId}`);
+  // },
   
-  // Get jams by user
-  getUserJams: async (userId: number): Promise<Jam[]> => {
-    const response = await API.get(`/users/${userId}/jams`);
-    return response.data;
-  },
+  // // Get jams by user
+  // getUserJams: async (userId: number): Promise<Jam[]> => {
+  //   const response = await API.get(`/users/${userId}/jams`);
+  //   return response.data;
+  // },
 };
 
 export default jamService;
