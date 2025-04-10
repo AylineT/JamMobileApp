@@ -2,7 +2,7 @@ import { Text, YStack, Image, Button, XStack } from "tamagui"
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { useNavigationStore } from '@/store/navigationStore';
-import { ChevronRight, Heart } from "@tamagui/lucide-icons";
+import { ChevronRight, CircleCheck } from "@tamagui/lucide-icons";
 import { useState } from "react";
 
 export interface Jam {
@@ -66,7 +66,7 @@ export const JamListItem = ({ jam }: JamListItemProps) => {
         </YStack>
         <XStack justifyContent="space-between">
           <Button onPress={onPressFav} backgroundColor="transparent">
-            <Heart size={24} fill={fav ? "white" : "transparent"}/>
+            <CircleCheck size={24} color={fav ? "$black" : "$white"} fill={fav ? "white" : "transparent"}/>
           </Button>
           <Button onPress={onPressDetails} backgroundColor="transparent">
             Plus d'infos

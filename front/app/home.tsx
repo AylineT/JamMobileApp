@@ -12,13 +12,12 @@ export default function HomeScreen() {
   const { activeTab } = useNavigationStore();
   return (
     <YStack flex={1}>
-      <SizableText>HEADER</SizableText>
       {activeTab === "home" && <HomeTab />}
       {activeTab === "messages" && <MessagesTab />}
       {activeTab === "jams" && <JamsTab />}
       {activeTab === "profile" && <ProfileTab />}
       {activeTab === "jamDetails" && <JamDetails /> }
-      {activeTab === "createJame" && <CreateJam/> }
+      {activeTab === "createJam" && <CreateJam/> }
       <NavBar />
     </YStack>
   )
