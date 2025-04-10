@@ -5,7 +5,6 @@ ALTER TABLE Events DISABLE TRIGGER ALL;
 ALTER TABLE EventParticipants DISABLE TRIGGER ALL;
 ALTER TABLE EventHosts DISABLE TRIGGER ALL;
 
-
 -- Désactiver temporairement les contraintes de clé étrangère
 SET CONSTRAINTS ALL DEFERRED;
 
@@ -15,6 +14,14 @@ TRUNCATE TABLE EventParticipants CASCADE;
 TRUNCATE TABLE Events CASCADE;
 TRUNCATE TABLE Address CASCADE;
 TRUNCATE TABLE Users CASCADE;
+
+-- Réinitialiser les séquences (fait repartir les IDs de 1)
+ALTER SEQUENCE address_id_seq RESTART WITH 1;
+ALTER SEQUENCE conversations_id_seq RESTART WITH 1;
+ALTER SEQUENCE events_id_seq RESTART WITH 1;
+ALTER SEQUENCE messages_id_seq RESTART WITH 1;
+ALTER SEQUENCE refreshtokens_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 -- Insert fake data into Users table
 INSERT INTO Users (username, email, hashed_password, full_name, bio) VALUES
@@ -54,13 +61,9 @@ INSERT INTO EventHosts (event_id, user_id) VALUES
 (3, 3),
 (4, 1);
 
--- À la fin, valider toutes les modifications et vérifier les contraintes
-
-
 -- Réactiver les contraintes
 ALTER TABLE Events ENABLE TRIGGER ALL;
 ALTER TABLE EventParticipants ENABLE TRIGGER ALL;
 ALTER TABLE EventHosts ENABLE TRIGGER ALL;
-
 
 COMMIT;
