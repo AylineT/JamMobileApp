@@ -1,25 +1,35 @@
-import CustomButton from "@/components/atoms/CustomButton";
 import { useNavigationStore } from "@/store/navigationStore";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Image, Text, YStack, XStack, Button } from "tamagui";
 import { CircleCheck } from "@tamagui/lucide-icons";
 import { useState } from "react";
+import jamService from "@/services/jamService";
 
 export const JamDetails = () => {
   const { jam } = useNavigationStore();
-  const fave = false
-  const [fav, setFav] = useState(fave)
-
+  
   if (!jam) {
     return <Text>Jam introuvable</Text>;
   }
+  
+  const { id, title, event_date, location, description, created_by, is_participating,
+    image = "https://media.istockphoto.com/id/1806011581/fr/photo/des-jeunes-gens-heureux-et-ravis-de-danser-de-sauter-et-de-chanter-pendant-le-concert-de-leur.jpg?s=612x612&w=0&k=20&c=d1GQ5j33_Ie7DBUM0gTxQcaPhkEIQxkBlWO0TLNPB8M=" 
+  } = jam;
 
-  const { title, date, location, description, creator, image } = jam;
+  console.log(jam)
 
-  const onPress = () => {
-    setFav((value) => !value)
-    console.log("mettre en fav")
+  const [participate, setParticipate] = useState(is_participating)
+
+  const onPress = async () => {
+    try {
+      participate === false ? await jamService.participate(id) : await jamService.leave(id, created_by)
+    } catch (err) {
+      console.error('Login failed:', err);
+    } finally {
+      setParticipate((value) => !value)
+      console.log("good")
+    }
   }
 
   return (
@@ -62,7 +72,7 @@ export const JamDetails = () => {
         >
           <Button onPress={onPress} backgroundColor="transparent" fontSize={24}>
             Je participe !
-            <CircleCheck size={28} color={fav ? "$black" : "$white"} fill={fav ? "white" : "transparent"}/>
+            <CircleCheck size={28} color={participate ? "$black" : "$white"} fill={participate ? "white" : "transparent"}/>
           </Button>
         </YStack>
       </YStack>
@@ -72,7 +82,7 @@ export const JamDetails = () => {
         </Text>
         <XStack display="flex" flexDirection="column" gap={8} alignItems="start" flexWrap="wrap">
           <Text color="gray">
-            {format(date, "d MMMM yyyy • HH:mm", { locale: fr })}
+            {format(event_date, "d MMMM yyyy • HH:mm", { locale: fr })}
           </Text>
           <Text color="gray">{location}</Text>
         </XStack>
@@ -83,7 +93,7 @@ export const JamDetails = () => {
       </Text>
 
       <Text fontSize={14} color="gray">
-        Organisé par <Text fontWeight="600">{creator}</Text>
+        Organisé par <Text fontWeight="600">{created_by}</Text>
       </Text>
     </YStack>
   );

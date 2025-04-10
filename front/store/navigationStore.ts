@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 interface Jam {
-  id: number | string;
+  id: number;
   title: string;
-  image: string;
-  date: Date;
+  image?: string;
+  event_date: Date;
   location: string;
   description: string;
-  creator: string;
+  created_by: number;
+  is_participating: boolean;
 }
 interface NavBarProps {
   activeTab: string;
