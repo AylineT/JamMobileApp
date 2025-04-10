@@ -20,6 +20,8 @@ from app.schemas.event import (
     EventUserResponse,
     EventWithParticipationResponse
 )
+from app.schemas.address import AddressResponse  # Nouvel import
+
 
 router = APIRouter()
 
@@ -56,7 +58,7 @@ def create_event(
     new_event = Event(
         title=event_data.title,
         description=event_data.description,
-        location=event_data.location,
+        location_id=event_data.location_id,  # Nouveau champ
         event_date=event_data.event_date,
         created_by=current_user.id,
         created_at=datetime.now(pytz.timezone('Europe/Paris'))
@@ -75,6 +77,8 @@ def create_event(
     
     db.add(new_host)
     db.commit()
+    db.refresh(new_event)
+
     
     return new_event
 
