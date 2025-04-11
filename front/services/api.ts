@@ -4,7 +4,7 @@ import authService from '@/services/authService';
 
 const API = axios.create({
   // baseURL: 'http://192.168.1.178:8000',
-  baseURL: 'http://localhost:8000',
+  baseURL: 'http://172.20.10.4:8000',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

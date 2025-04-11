@@ -25,7 +25,7 @@ interface NavBarProps {
 }
 
 export const useNavigationStore = create<NavBarProps>((set) => ({
-  activeTab: "jams",
+  activeTab: "home",
   jam: null,
   setActiveTab: (value) => set({ activeTab: value }),
   setJam: (value) => set({ jam: value })

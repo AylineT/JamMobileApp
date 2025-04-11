@@ -1,13 +1,15 @@
 // components/molecules/JamCalloutCard.tsx
 
 import { Card, Image, Text, Button, XStack, YStack, Avatar } from 'tamagui'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { format } from 'date-fns'
+import userService from '@/services/userService'
 
 type JamCalloutCardProps = {
   title: string
-  creator: string
-  genre?: string
-  date?: string
+  creator: number
+  label?: string
+  date?: Date
   onPress?: () => void
   children?: ReactNode
 }
@@ -15,11 +17,21 @@ type JamCalloutCardProps = {
 export const JamCalloutCard = ({
   title,
   creator,
-  genre,
+  label,
   date,
   onPress,
   children,
 }: JamCalloutCardProps) => {
+  const [created, setCreated] = useState("")
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { username } = await userService.getUser(creator)
+      setCreated(username)
+    }
+    fetch()
+  }, [])
+
   return (
     <Card
       elevate
@@ -48,19 +60,19 @@ export const JamCalloutCard = ({
               <Avatar.Fallback backgroundColor={"gray"} />
             </Avatar>
             <Text fontSize="$3" color={"gray"}>
-              {creator}
+              {created}
             </Text>
           </XStack>
 
-          {genre && (
+          {label && (
             <Text fontSize="$2" color={"gray"}>
-              Genre : {genre}
+              Adresse : {label}
             </Text>
           )}
 
           {date && (
             <Text fontSize="$2" color={"gray"}>
-              📅 {date}
+              📅 {format(date, "d MMMM yyyy • HH:mm")}
             </Text>
           )}
 

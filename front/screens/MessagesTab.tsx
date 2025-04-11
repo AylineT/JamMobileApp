@@ -1,5 +1,5 @@
-import { SizableText } from "tamagui";
+import { SizableText, YStack } from "tamagui";
 
 export const MessagesTab = () => {
-  return <SizableText>Messages Content</SizableText>
+  return <YStack flex={1}></YStack>
 };

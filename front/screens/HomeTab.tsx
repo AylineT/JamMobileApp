@@ -1,63 +1,3 @@
-<<<<<<< HEAD
-// import React from 'react'
-// import { YStack, Text } from 'tamagui'
-// import MapView, { Marker, Callout } from 'react-native-maps'
-// import { StyledCard } from '../components/atoms/StyledCard'
-
-// export const HomeTab = () => {
-//   const jams = [
-//     {
-//       id: 'jam-1',
-//       title: 'Jazz & Jam 🥁',
-//       créateur: 'DJ Snake',
-//       location: { latitude: 48.8719, longitude: 2.3359 },
-//     },
-//     {
-//       id: 'jam-2',
-//       title: 'Funk Session 🎸',
-//       créateur: '50 Cent',
-//       location: { latitude: 48.8689, longitude: 2.3369 },
-//     },
-//     {
-//       id: 'jam-3',
-//       title: 'Rock N’ Roll 🤘',
-//       créateur: 'Lady Gaga',
-//       location: { latitude: 48.8729, longitude: 2.3339 },
-//     },
-//   ]
-
-//   return (
-//     <YStack flex={1}>
-//       { <MapView
-//         style={{ flex: 1 }}
-//         initialRegion={{
-//           latitude: 48.8719,
-//           longitude: 2.3359,
-//           latitudeDelta: 0.01,
-//           longitudeDelta: 0.01,
-//         }}
-//       >
-//         {jams.map((jam) => (
-//           <Marker key={jam.id} coordinate={jam.location}>
-//             <Callout tooltip>
-//               <StyledCard
-//                 title={jam.title}
-//                 onPress={() => {
-//                   console.log('Click sur jam', jam.id)
-//                 }}
-//               >
-//                 <Text fontSize="$2" marginTop={"$1" as any} color="black">
-//                   Créé par {jam.créateur}
-//                 </Text>
-//               </StyledCard>
-//             </Callout>
-//           </Marker>
-//         ))}
-//       </MapView> }
-//     </YStack>
-//   )
-// }
-
 import React, { useEffect, useRef, useState } from 'react'
 import * as Location from 'expo-location'
 import * as Device from 'expo-device'
@@ -68,60 +8,18 @@ import { JamMap } from '../components/organisms/JamMap'
 import type { LocationObjectCoords } from 'expo-location'
 import type { Jam } from '../components/atoms/Jam'
 import MapView from 'react-native-maps'
+import jamService from '@/services/jamService'
 
 export const HomeTab = () => {
   const [userLocation, setUserLocation] = useState<LocationObjectCoords | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [filteredJams, setFilteredJams] = useState<Jam[]>([])
   const [isRecentering, setIsRecentering] = useState(false)
   const mapRef = useRef<MapView>(null)
 
-  const allJams: Jam[] = [
-    {
-      id: 'jam-1',
-      title: 'Jazz & Jam 🥁',
-      creator: 'DJ Snake',
-      location: { latitude: 48.8719, longitude: 2.3359 },
-      genre: 'Jazz',
-      date: 'Vendredi soir',
-    },
-    {
-      id: 'jam-2',
-      title: 'Funk Session 🎸',
-      creator: '50 Cent',
-      location: { latitude: 48.8689, longitude: 2.3369 },
-      genre: 'Funk',
-      date: 'Samedi soir',
-    },
-    {
-      id: 'jam-3',
-      title: 'Rock N’ Roll 🤘',
-      creator: 'Lady Gaga',
-      location: { latitude: 48.8729, longitude: 2.3339 },
-      genre: 'Rock',
-      date: 'Dimanche après-midi',
-    },
-  ]
-=======
-import React, { useEffect, useState } from 'react'
-import { YStack } from 'tamagui'
-import MapView, { Marker, Callout } from 'react-native-maps'
-import { StyledCard } from '../components/atoms/StyledCard'
-import { Jam, useNavigationStore } from "@/store/navigationStore";
-import jamService from '@/services/jamService';
-
-export const HomeTab = () => {
   const [jams, setJams] = useState<Jam[]>([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false);
-  const { setActiveTab, setJam } = useNavigationStore();
-
-  const onPress = (jam: Jam) => {
-    console.log("ok")
-    setActiveTab("jamsDetails")
-    setJam(jam)
-  }
 
   useEffect(() => {
     const getJams = async () => {
@@ -140,7 +38,6 @@ export const HomeTab = () => {
 
     getJams()
   }, [])
->>>>>>> d65d85dda27ad032de2580f2fcb21a6ae3ff61e6
 
   useEffect(() => {
     async function getCurrentLocation() {
@@ -177,7 +74,7 @@ export const HomeTab = () => {
 
   useEffect(() => {
     if (!userLocation) return
-    const filtered = allJams.filter((jam) => {
+    const filtered = jams.filter((jam) => {
       const inSearch = jam.title.toLowerCase().includes(searchQuery.toLowerCase())
       const dist = getDistance(
         userLocation.latitude,
@@ -187,7 +84,7 @@ export const HomeTab = () => {
       )
       return inSearch && dist <= 1
     })
-    setFilteredJams(filtered)
+    setJams(filtered)
   }, [searchQuery, userLocation])
 
   const handleRecenter = async () => {
@@ -225,7 +122,6 @@ export const HomeTab = () => {
   }
 
   return (
-<<<<<<< HEAD
     <YStack flex={1} position="relative" overflow="hidden">
       {userLocation ? (
         <>
@@ -259,19 +155,21 @@ export const HomeTab = () => {
           </YStack>
 
           {/* 🗺️ Map */}
-          <JamMap userLocation={userLocation} jams={filteredJams} mapRef={mapRef} />
+          <JamMap userLocation={userLocation} jams={jams} mapRef={mapRef} />
 
           {/* 📍 Recenter button */}
           <Button
             position="absolute"
             bottom={20}
             right={20}
-            size={4}
             zIndex={3}
             borderRadius={10}
-            backgroundColor="$primary"
+            height={50}
+            backgroundColor="white"
+            width={50}
             onPress={handleRecenter}
             disabled={isRecentering}
+            fontSize={20}
           >
             {isRecentering ? '⏳' : '📍'}
           </Button>
@@ -282,31 +180,7 @@ export const HomeTab = () => {
           {errorMsg && <Text color="red">{errorMsg}</Text>}
         </YStack>
       )}
-=======
-    <YStack flex={1}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 48.8719,
-          longitude: 2.3359,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}
-      >
-        {jams.map((jam) => {
-          const {id, location} = jam
-          const { label, ...coordinates } = location;
-          return (
-            <Marker key={id} coordinate={coordinates}>
-              <Callout tooltip>
-                <StyledCard jam={jam} onPress={() => onPress(jam)}/>
-              </Callout>
-            </Marker>
-            )
-          })
-        }
-      </MapView>
->>>>>>> d65d85dda27ad032de2580f2fcb21a6ae3ff61e6
     </YStack>
   )
 }
+
