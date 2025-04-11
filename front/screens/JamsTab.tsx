@@ -3,8 +3,12 @@ import { useEventsStore } from "@/store/eventsStore";
 import { YStack, Tabs, SizableText } from "tamagui";
 import { useEffect, useState } from "react";
 import jamService from "@/services/jamService";
+<<<<<<< HEAD
+import {Jam} from "../components/atoms/Jam"
+=======
 import { Jam } from "@/store/navigationStore";
 
+>>>>>>> d65d85dda27ad032de2580f2fcb21a6ae3ff61e6
 const tabs = [
   {
     value: "mine",

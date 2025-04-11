@@ -1,12 +1,12 @@
 import React from 'react';
 import { Tabs, YStack, SizableText } from 'tamagui';
-import { Home, MessagesSquare, Music, User } from '@tamagui/lucide-icons';
+import { Map, MessagesSquare, Music, User } from '@tamagui/lucide-icons';
 import { useNavigationStore } from '@/store/navigationStore';
 
 const tabs = [
   {
     value: "home", 
-    Icon: Home,
+    Icon: Map,
     title: "Home"
   },
   {
