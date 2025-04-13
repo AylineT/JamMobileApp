@@ -1,4 +1,4 @@
-# Dossier de Conception - Backend
+# Dossier de Conception - Backend et Frontend
 
 # Documentation du Projet Mobile Musician
 
@@ -94,11 +94,18 @@ erDiagram
 
 ## Choix techniques
 Principaux outils :
-* Backend : FastAPI, SQLAlchemy, Pydantic
-* Base de données : PostgreSQL
-* Authentification : JWT (JSON Web Tokens)
-* Tests : Pytest
-* Développement : Docker, VSCode Dev Containers
+* Backend : 
+    * FastAPI, SQLAlchemy, Pydantic
+    * Base de données : PostgreSQL
+    * Authentification : JWT (JSON Web Tokens)
+    * Tests : Pytest
+    * Développement : Docker, VSCode Dev Containers
+* Frontend :
+    * React native (react native maps, expo...)
+    * TamagUI pour les variables et le style
+    * Structure de l'app en Atomic design
+    * Zustand pour le store
+    * Axios pour la gestion d'API
 
 ### Schéma d'interactions :
 
@@ -186,7 +193,7 @@ def test_user_registration_and_login_flow(client):
     assert me_response.status_code == 200
     assert me_response.json()["email"] == user_data["email"]
 ```
-## Déploiement (a faire)
+## Déploiement (à faire)
 Procédure de déploiement :
 * Hébergement : Docker sur un VPS ou service cloud (AWS, GCP, Azure)
 
